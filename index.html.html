@@ -3,168 +3,420 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Community Management · Moça Lovers · 03 a 09/09/2026</title>
+<title>Moça Lovers · Dashboard</title>
 <style>
   :root{
-    --moca-900:#0A2C68; --moca-700:#0E3E8F; --moca-500:#1A56C4;
-    --creme:#FAF6EE; --ouro:#B0722A; --ouro-claro:#D9A24E;
-    --verde:#1F7A4D; --vermelho:#A4243B;
-    --texto:#1B2432; --texto-2:#5A6577; --linha:#E3DCCB; --linha-2:#EDE6D8;
+    --bg:#121214; --panel:#18181B; --panel2:#1E1E22;
+    --line:#2A2A31; --line2:#232329;
+    --text:#F4F4F5; --dim:#A1A1AA; --dimmer:#71717A;
+    --mint:#4ADE80; --blue:#60A5FA; --gold:#F5C451; --lilac:#A78BFA; --red:#F87171;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{background:var(--creme);font-family:"Helvetica Neue",Arial,"Segoe UI",sans-serif;color:var(--texto);
-       display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .palco{width:794px;height:1123px;transform-origin:center center;transform:scale(var(--s,1))}
+  body{background:var(--bg);color:var(--text);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  @media(min-width:640px){.wrap{padding:0 40px}}
 
+  header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:28px 0 16px}
+  .head-in{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  h1{font-size:24px;font-weight:600;letter-spacing:-.02em}
+  .head-in p{font-size:14px;color:var(--dimmer);margin-top:4px}
+  .tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:4px}
+  .tab{font:500 14px/1 inherit;color:var(--dimmer);background:transparent;border:0;border-radius:12px;
+       padding:11px 16px;cursor:pointer;transition:color .15s,background .15s}
+  .tab:hover{color:var(--text)}
+  .tab[aria-selected="true"]{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+  .tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
-  .page{width:794px;height:1123px;background:var(--creme);
-        display:flex;flex-direction:column;overflow:hidden}
+  main{padding:36px 0 40px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+  section+section{margin-top:40px}
+  .stack{display:flex;flex-direction:column;gap:32px}
 
-  .faixa{background:var(--moca-900);color:#fff;padding:29px 43px 12px;border-bottom:5px solid var(--ouro)}
-  .marcas{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-  .marcas img.moca{height:67px;width:auto}
-  .marcas img.pub{height:18px;width:auto}
-  h1{font-family:Georgia,serif;font-size:31px;font-weight:700;line-height:1.05}
-  .sub{font-size:11.5px;color:#C6D5F0;margin-top:5px}
-  .meta{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:11px;padding-top:9px;border-top:1px solid #2A4E8E}
-  .meta div{display:grid;grid-template-columns:78px 1fr;align-items:baseline;gap:8px}
-  .meta span{font-size:8px;letter-spacing:1.3px;color:var(--ouro-claro);font-weight:700}
-  .meta strong{font-size:10.5px;font-weight:500}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .sec-head h2{font-size:18px;font-weight:600;letter-spacing:-.01em}
+  .sec-head .note{margin-left:auto;font-size:12px;color:var(--dimmer);text-align:right}
+  .sec-head .ico{transform:translateY(3px);display:flex}
 
-  main{flex:1;padding:16px 43px 0;display:flex;flex-direction:column;min-height:0}
-  .sec{font-family:Georgia,serif;font-size:15px;color:var(--moca-900);display:flex;align-items:baseline;gap:8px;margin:0 0 9px}
-  .sec::before{content:"";width:6px;height:6px;background:var(--ouro);flex:none;transform:translateY(-2px)}
-  .sec em{margin-left:auto;font-style:italic;font-family:inherit;font-size:9.5px;color:var(--texto-2)}
+  .grid{display:grid;gap:20px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:1080px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:720px){.g4,.g3,.g2{grid-template-columns:1fr}}
 
-  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
-  .kpi{background:#fff;border:1px solid var(--linha-2);border-left:4px solid var(--moca-700);padding:10px 12px}
-  .kpi:nth-child(2){border-left-color:var(--ouro)}
-  .kpi:nth-child(3){border-left-color:var(--moca-500)}
-  .kpi b{font-family:Georgia,serif;font-size:31px;color:var(--moca-900);line-height:1}
-  .kpi b small{font-size:12px;color:var(--texto-2);font-family:inherit}
-  .kpi p{font-size:9.5px;color:var(--texto-2);line-height:1.35;margin-top:6px}
+  .stat{padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+  .stat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .chip{border-radius:12px;padding:8px;display:flex}
+  .badge{font-size:12px;font-weight:500;border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .stat .val{font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:20px}
+  .stat .lab{font-size:14px;font-weight:500;color:var(--dim);margin-top:6px}
+  .stat .sub{font-size:12px;color:var(--dimmer);margin-top:8px;line-height:1.5}
 
-  .chart{background:#fff;border:1px solid var(--linha-2);margin-top:11px;padding:14px 14px 9px}
-  .bars{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;height:128px}
-  .bar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
-  .bar i{font-style:normal;font-size:11px;font-weight:700;color:var(--moca-900);margin-bottom:3px}
-  .bar u{display:block;width:100%;background:var(--moca-500);text-decoration:none}
-  .bar:first-child u{background:var(--moca-900)}
-  .bar.partial u{background:var(--ouro-claro)}
-  .bar span{font-size:9px;color:var(--texto-2);margin-top:6px;border-top:1px solid var(--linha);width:100%;text-align:center;padding-top:5px}
+  .topic{display:flex;align-items:center;gap:16px}
+  .topic+.topic{margin-top:16px}
+  .topic .rank{font-size:14px;font-weight:600;color:var(--dimmer);width:20px;text-align:right;flex:none}
+  .topic .ico{border-radius:10px;padding:8px;flex:none;display:flex}
+  .topic .body{flex:1;min-width:0}
+  .topic .names{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .topic .nome{font-size:14px;font-weight:500}
+  .topic .det{font-size:12px;color:var(--dimmer)}
+  .bar{height:6px;border-radius:999px;background:var(--line2);margin-top:8px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:999px}
+  .topic .qtd{width:80px;text-align:right;flex:none}
+  .topic .qtd b{font-size:16px;font-weight:600;display:block}
+  .topic .qtd span{font-size:12px;color:var(--dimmer)}
 
-  .topic{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;padding:7px 0 8px;border-bottom:1px solid var(--linha)}
-  .topic .rank{font-family:Georgia,serif;font-size:15px;color:var(--ouro);line-height:1}
-  .topic h3{font-size:12px;color:var(--moca-900);font-weight:700}
-  .topic p{font-size:9.5px;color:var(--texto-2);margin-top:2px}
-  .topic .num{font-family:Georgia,serif;font-size:20px;color:var(--moca-900);white-space:nowrap}
-  .topic .num small{font-size:10.5px;color:var(--texto-2);font-family:inherit;margin-left:3px}
-  .track{grid-column:2 / -1;height:4px;background:var(--linha);margin-top:6px;overflow:hidden}
-  .track u{display:block;height:100%;background:var(--moca-700);text-decoration:none}
-  .foot-note{font-size:9.2px;color:var(--texto-2);font-style:italic;margin-top:7px}
+  .insight{background:var(--panel);border:1px solid rgba(245,196,81,.28);border-radius:16px;
+           padding:24px;display:flex;gap:16px}
+  .insight h3{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:8px}
+  .insight p{font-size:14px;line-height:1.65;color:var(--dim);max-width:68ch}
 
-  .hl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:9px}
-  .card{background:#fff;border:1px solid var(--linha-2);border-top:3px solid var(--verde);padding:10px 12px 11px}
-  .card.warn{border-top-color:var(--vermelho)}
-  .card h4{font-family:Georgia,serif;font-size:12px;color:var(--verde);margin-bottom:7px}
-  .card.warn h4{color:var(--vermelho)}
-  .card li{list-style:none;font-size:9.2px;line-height:1.4;color:var(--texto-2);margin-bottom:7px}
-  .card li b{color:var(--texto)}
+  .pill{font-size:12px;font-weight:500;border-radius:999px;padding:6px 12px;display:inline-flex;
+        align-items:center;gap:7px;background:rgba(74,222,128,.1);color:var(--mint)}
+  .dot{width:6px;height:6px;border-radius:999px;background:currentColor}
 
-  @page{size:A4 portrait;margin:0}
-  @media print{
-    html,body{width:794px;height:1123px;overflow:hidden;display:block;background:#fff}
-    .palco{transform:none !important;width:794px;height:1123px}
-  }
+  .mini{background:var(--panel2);border:1px solid var(--line2);border-radius:16px;padding:20px}
+  .mini b{font-size:24px;font-weight:600;display:block}
+  .mini span{font-size:14px;color:var(--dim);margin-top:4px;display:block}
+
+  .card-h{font-size:14px;font-weight:500}
+  .card-s{font-size:12px;color:var(--dimmer);margin-top:4px}
+
+  .donut-wrap{position:relative;height:212px;margin-top:16px}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+  .donut-center b{font-size:30px;font-weight:600;color:var(--mint)}
+  .donut-center span{font-size:12px;color:var(--dimmer);margin-top:2px}
+  .legend{display:flex;justify-content:center;gap:24px;font-size:12px;color:var(--dim);margin-top:4px}
+  .legend span{display:flex;align-items:center;gap:8px}
+  .legend .sw{width:8px;height:8px;border-radius:999px;flex:none}
+  .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:12px;color:var(--dim);margin-top:8px}
+  .legend-grid span{display:flex;align-items:center;gap:8px}
+  .legend-grid em{margin-left:auto;font-style:normal;color:var(--dimmer)}
+
+  .cmp-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .cmp-head p{font-size:16px;font-weight:600}
+  .cmp-rate{font-size:14px;font-weight:600;border-radius:999px;padding:5px 12px}
+  .row{display:flex;align-items:baseline;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line2)}
+  .row:first-child{border-top:0}
+  .row span{font-size:14px;color:var(--dim)}
+  .row b{font-size:18px;font-weight:600}
+
+  svg .grid-line{stroke:var(--line2);stroke-width:1}
+  svg text{fill:var(--dimmer);font-size:12px;font-family:inherit}
+  .chart-legend{display:flex;gap:20px;font-size:12px;color:var(--dim);margin-top:12px;justify-content:center}
+
+  footer{padding:0 0 40px;font-size:12px;color:var(--dimmer);line-height:1.6}
+  [hidden]{display:none !important}
 </style>
 </head>
 <body>
 
-<div class="palco">
-<section class="page">
-  <div class="faixa">
-    <div class="marcas">
-      <img class="moca" src="data:image/png;base64,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" alt="Nestlé Moça Lovers">
-      <img class="pub" src="data:image/png;base64,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" alt="Publination">
+<header>
+  <div class="wrap head-in">
+    <div>
+      <h1>Moça Lovers</h1>
+      <p>Comunidade e plataforma Jornada Doce, semana de 03 a 09 de setembro</p>
     </div>
-    <h1>Community Management</h1>
-    <p class="sub">Overview Caixa E-mails · Fórum Semanal Moça Lovers</p>
-    <div class="meta">
-      <div><span>PERÍODO</span><strong>03/09 a 09/09/2026 (quinta a quarta)</strong></div>
-      <div><span>DESAFIO</span><strong>Mês do Brigadeiro (Semana 1)</strong></div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-sac" aria-controls="p-sac" aria-selected="true">Overview Semanal (SAC)</button>
+      <button class="tab" role="tab" id="tab-jd" aria-controls="p-jd" aria-selected="false">Dashboard Jornada Doce</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- ==================================================== ABA 1 -->
+<div id="p-sac" role="tabpanel" aria-labelledby="tab-sac" class="stack">
+
+  <div class="grid g4">
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(96,165,250,.1);color:var(--blue)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        </span>
+      </div>
+      <div><div class="val">130</div><div class="lab">Mensagens recebidas</div><div class="sub">caixa do SAC, 03 a 09 de setembro</div></div>
+    </div>
+
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(167,139,250,.1);color:var(--lilac)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 5.5a3 3 0 0 1 0 5.6"/><path d="M18 14.6c2 .7 3.3 2.4 3.3 4.6"/></svg>
+        </span>
+      </div>
+      <div><div class="val">91</div><div class="lab">Remetentes únicos</div><div class="sub">1,4 mensagem por pessoa em média</div></div>
+    </div>
+
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(74,222,128,.1);color:var(--mint)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        </span>
+      </div>
+      <div><div class="val">18,6</div><div class="lab">Média diária</div><div class="sub">sobre os 7 dias do ciclo</div></div>
+    </div>
+
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(245,196,81,.1);color:var(--gold)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.4 4.5 6 4.5 8a4.5 4.5 0 0 1-9 0c0-1 .4-2 1.2-3 .2 1.2.8 2 1.8 2.3C10.2 8.4 10.8 5.7 12 3Z"/><path d="M12 21a7 7 0 0 0 7-7"/><path d="M5 14a7 7 0 0 0 7 7"/></svg>
+        </span>
+        <span class="badge" style="background:rgba(245,196,81,.1);color:var(--gold)">2 dias</span>
+      </div>
+      <div><div class="val">60%</div><div class="lab">Concentração no pico</div><div class="sub">do volume em 03 e 08/09</div></div>
     </div>
   </div>
 
-  <main>
-    <h2 class="sec">Overview da semana <em>volume por dia · corte na quarta 09/09 às 19h</em></h2>
-    <div class="kpis">
-      <div class="kpi"><b>142</b><p>e-mails recebidos de participantes</p></div>
-      <div class="kpi"><b>20<small>/dia</small></b><p>média de chamados na semana</p></div>
-      <div class="kpi"><b>49<small>%</small></b><p>do volume só em 03 e 04/09, na virada do desafio</p></div>
+  <div class="panel" style="padding:28px">
+    <div class="sec-head">
+      <span class="ico" style="color:var(--blue)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      </span>
+      <h2>O que as Lovers escreveram</h2>
+      <span class="note">6 assuntos cobrem toda a caixa</span>
     </div>
+    <div id="topics" style="margin-top:24px"></div>
+  </div>
 
-    <div class="chart">
-      <div class="bars">
-        <div class="bar"><i>41</i><u style="height:100%"></u><span>Qui 03</span></div>
-        <div class="bar"><i>28</i><u style="height:68%"></u><span>Sex 04</span></div>
-        <div class="bar"><i>6</i><u style="height:15%"></u><span>Sáb 05</span></div>
-        <div class="bar"><i>6</i><u style="height:15%"></u><span>Dom 06</span></div>
-        <div class="bar"><i>8</i><u style="height:20%"></u><span>Seg 07</span></div>
-        <div class="bar"><i>36</i><u style="height:88%"></u><span>Ter 08</span></div>
-        <div class="bar partial"><i>17</i><u style="height:41%"></u><span>Qua 09</span></div>
-      </div>
-    </div>
-
-    <h2 class="sec" style="margin-top:16px">Top 5 topics</h2>
+  <div class="insight">
+    <span class="chip" style="background:rgba(245,196,81,.1);color:var(--gold);height:fit-content;flex:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a6 6 0 0 0-3.5 10.9c.5.4.8 1 .9 1.6h5.2c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 2Z"/></svg>
+    </span>
     <div>
-      <div class="topic"><div class="rank">1</div>
-        <div><h3>Redes sociais</h3><p>Vincular, alterar e incluir o @ do TikTok e do Instagram</p></div>
-        <div class="num">59<small>42%</small></div><div class="track"><u style="width:100%"></u></div></div>
-      <div class="topic"><div class="rank">2</div>
-        <div><h3>Kit e logística</h3><p>Código de rastreio, status de envio e mudança de endereço</p></div>
-        <div class="num">51<small>36%</small></div><div class="track"><u style="width:86%"></u></div></div>
-      <div class="topic"><div class="rank">3</div>
-        <div><h3>Plataforma, regras e cadastro</h3><p>Acesso, convites pendentes e dúvidas de execução</p></div>
-        <div class="num">9<small>6%</small></div><div class="track"><u style="width:16%"></u></div></div>
-      <div class="topic"><div class="rank">4</div>
-        <div><h3>Premiação, ranking e colheradas</h3><p>Vale-compras da Amazon e prêmios dos desafios anteriores</p></div>
-        <div class="num">9<small>6%</small></div><div class="track"><u style="width:16%"></u></div></div>
-      <div class="topic"><div class="rank">5</div>
-        <div><h3>Curadoria</h3><p>Contestações de conteúdo reprovado como de outro perfil</p></div>
-        <div class="num">8<small>6%</small></div><div class="track"><u style="width:14%"></u></div></div>
+      <h3>Leitura da semana</h3>
+      <p>A caixa do SAC não mede insatisfação com a marca, mas sim atrito de produto bloqueante. A maioria quer participar, mas trava em problemas de plataforma, como o campo de redes sociais bloqueado.</p>
     </div>
-    <p class="foot-note">Logo fora do top 5: pedidos de saída da comunidade, com 6 e-mails (4% do total).</p>
+  </div>
 
-    <h2 class="sec" style="margin-top:16px">Highlights e lowlights</h2>
-    <div class="hl">
-      <div class="card">
-        <h4>Sinais positivos</h4>
-        <ul>
-          <li><b>Engajamento alto para vincular o TikTok:</b> a maior parte dos pedidos de rede social é para adicionar o perfil e produzir mais.</li>
-          <li><b>Lovebrand afetuoso:</b> as Lovers escrevem para a Moça como quem escreve para uma pessoa querida.</li>
-          <li><b>Mês do Brigadeiro pegou na largada:</b> dúvidas de execução da receita já na semana 1.</li>
-        </ul>
-      </div>
-      <div class="card warn">
-        <h4>Pontos de atenção</h4>
-        <ul>
-          <li><b>Campo de redes sociais travado:</b> cadeado em Meus Dados, TikTok que desvincula e troca de @ que zera colheradas.</li>
-          <li><b>Ansiedade por código de rastreio:</b> o aviso de kit postado chega antes de o código aparecer na plataforma.</li>
-        </ul>
-      </div>
-    </div>
-  </main>
-</section>
 </div>
 
+<!-- ==================================================== ABA 2 -->
+<div id="p-jd" role="tabpanel" aria-labelledby="tab-jd" hidden>
+
+  <section>
+    <div class="sec-head">
+      <span class="ico" style="color:var(--mint)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 13.8 9 19.5 9.6 15.2 13.2 16.6 18.8 12 15.8 7.4 18.8 8.8 13.2 4.5 9.6 10.2 9Z"/></svg>
+      </span>
+      <h2>Negócio e valor gerado</h2>
+      <span class="note">acumulado do programa</span>
+    </div>
+    <div class="grid g3" id="negocio"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="ico" style="color:var(--gold)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.4 4.5 6 4.5 8a4.5 4.5 0 0 1-9 0c0-1 .4-2 1.2-3 .2 1.2.8 2 1.8 2.3C10.2 8.4 10.8 5.7 12 3Z"/><path d="M12 21a7 7 0 0 0 7-7"/><path d="M5 14a7 7 0 0 0 7 7"/></svg>
+      </span>
+      <h2>Mês do Brigadeiro</h2>
+      <span class="note">desafio de setembro</span>
+    </div>
+
+    <div class="panel" style="padding:28px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span class="pill"><span class="dot"></span>Em andamento</span>
+        <span style="font-size:14px;color:var(--dim)">01/09 a 30/09</span>
+      </div>
+
+      <div class="grid g4" style="margin-top:24px">
+        <div class="mini"><b style="color:var(--blue)">107</b><span>Criadoras</span></div>
+        <div class="mini"><b style="color:var(--lilac)">236</b><span>Conteúdos enviados</span></div>
+        <div class="mini"><b style="color:var(--mint)">236</b><span>Aprovados</span></div>
+        <div class="mini"><b style="color:var(--red)">0</b><span>Reprovados</span></div>
+      </div>
+
+      <div class="grid g2" style="margin-top:28px">
+        <div class="mini" style="padding:24px">
+          <div class="card-h">Curadoria</div>
+          <div class="card-s">nenhum conteúdo reprovado até agora</div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 200 200" width="100%" height="100%" role="img" aria-label="100% de aprovação">
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#232329" stroke-width="26"/>
+              <circle cx="100" cy="100" r="70" fill="none" stroke="var(--mint)" stroke-width="26"
+                      stroke-dasharray="439.8 0" transform="rotate(-90 100 100)"/>
+            </svg>
+            <div class="donut-center"><b>100%</b><span>aprovação</span></div>
+          </div>
+          <div class="legend">
+            <span><i class="sw" style="background:var(--mint)"></i>236 aprovados</span>
+            <span><i class="sw" style="background:var(--red)"></i>0 reprovados</span>
+          </div>
+        </div>
+
+        <div class="mini" style="padding:24px">
+          <div class="card-h">Mix de conteúdo</div>
+          <div class="card-s">distribuição ilustrativa dos 236 envios</div>
+          <div class="donut-wrap"><svg id="mix-donut" viewBox="0 0 200 200" width="100%" height="100%"></svg></div>
+          <div class="legend-grid" id="mix-legend"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="ico" style="color:var(--lilac)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3"/><path d="M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 20h4M12 14v6"/></svg>
+      </span>
+      <h2>Desafios anteriores lado a lado</h2>
+      <span class="note">ciclos já encerrados</span>
+    </div>
+
+    <div class="grid g2" id="comparativo"></div>
+
+    <div class="panel" style="padding:28px;margin-top:20px">
+      <div class="card-h">Volume comparado</div>
+      <div class="card-s" style="margin-bottom:20px">o primeiro desafio mobilizou cerca do dobro de criadoras e conteúdos</div>
+      <svg id="barras" viewBox="0 0 720 260" width="100%" style="height:260px"></svg>
+      <div class="chart-legend">
+        <span><i class="sw" style="display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--lilac);margin-right:8px"></i>Meu jeito único com Moça</span>
+        <span><i class="sw" style="display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--blue);margin-right:8px"></i>Mesa Posta com Moça</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+</main>
+
+<footer><div class="wrap">
+  Fontes: caixa sac.mocalovers@publination.com.br e plataforma Jornada Doce. O mix de conteúdo do Mês do Brigadeiro é uma distribuição ilustrativa.
+</div></footer>
+
 <script>
-function ajustar(){
-  var s = Math.min(window.innerWidth/794, window.innerHeight/1123);
-  document.documentElement.style.setProperty('--s', s);
+var CV = { mint:'#4ADE80', blue:'#60A5FA', gold:'#F5C451', lilac:'#A78BFA', red:'#F87171' };
+var nf = function(n){ return n.toLocaleString('pt-BR'); };
+
+/* ---------------- abas ---------------- */
+var tabSac = document.getElementById('tab-sac'), tabJd = document.getElementById('tab-jd');
+var pSac = document.getElementById('p-sac'), pJd = document.getElementById('p-jd');
+function trocar(alvo){
+  var sac = alvo === 'sac';
+  tabSac.setAttribute('aria-selected', sac); tabJd.setAttribute('aria-selected', !sac);
+  pSac.hidden = !sac; pJd.hidden = sac;
+  if(!sac) desenharBarras();
 }
-ajustar();
-window.addEventListener('resize', ajustar);
+tabSac.onclick = function(){ trocar('sac'); };
+tabJd.onclick  = function(){ trocar('jd'); };
+
+/* ---------------- top 5 ---------------- */
+var icones = {
+  link:'<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.1"/>',
+  pacote:'<path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+  grade:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  trofeu:'<path d="M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3"/><path d="M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 20h4M12 14v6"/>',
+  saida:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M17 11h5"/>',
+  escudo:'<path d="M12 3 20 6v5c0 4.5-3.2 8.4-8 10-4.8-1.6-8-5.5-8-10V6Z"/><path d="m9 12 2 2 4-4"/>'
+};
+var topics = [
+  {rank:1,nome:'Redes sociais',det:'vincular e trocar o @',msgs:52,pct:'40,0',cor:CV.blue,ic:'link'},
+  {rank:2,nome:'Kit e logística',det:'rastreio e endereço',msgs:48,pct:'36,9',cor:CV.mint,ic:'pacote'},
+  {rank:3,nome:'Plataforma, regras e cadastro',det:'acesso e execução',msgs:11,pct:'8,5',cor:CV.lilac,ic:'grade'},
+  {rank:4,nome:'Premiação, ranking e colheradas',det:'vale-compras e pontuação',msgs:7,pct:'5,4',cor:CV.gold,ic:'trofeu'},
+  {rank:5,nome:'Descadastro',det:'pedidos de saída',msgs:6,pct:'4,6',cor:CV.red,ic:'saida'},
+  {rank:5,nome:'Curadoria',det:'contestação de reprovação',msgs:6,pct:'4,6',cor:CV.red,ic:'escudo'}
+];
+document.getElementById('topics').innerHTML = topics.map(function(t){
+  return '<div class="topic">'
+    + '<span class="rank">'+t.rank+'</span>'
+    + '<span class="ico" style="background:'+t.cor+'14;color:'+t.cor+'">'
+    + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+icones[t.ic]+'</svg></span>'
+    + '<div class="body"><div class="names"><span class="nome">'+t.nome+'</span><span class="det">'+t.det+'</span></div>'
+    + '<div class="bar"><i style="width:'+(t.msgs/52*100)+'%;background:'+t.cor+'"></i></div></div>'
+    + '<div class="qtd"><b>'+t.msgs+'</b><span>'+t.pct+'%</span></div></div>';
+}).join('');
+
+/* ---------------- seção A ---------------- */
+var negocio = [
+  {ic:'<path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/>',cor:CV.mint,val:'26.180',lab:'Criadoras aprovadas',sub:'de 50.553 cadastros',badge:'+1.326 em 7 dias',bcor:CV.mint},
+  {ic:'<path d="m22 3-10 9"/><path d="M22 3 15 21l-3-8-8-3Z"/>',cor:CV.blue,val:'5.485',lab:'Já publicaram',sub:'ativação de 21%',badge:'54,9% da meta',bcor:CV.blue},
+  {ic:'<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.4 2.4L16 9.8"/>',cor:CV.lilac,val:'17.195',lab:'Conteúdos aprovados',sub:'95,8% de aprovação, 757 reprovados'},
+  {ic:'<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/>',cor:CV.gold,val:'~40,3 mi',lab:'Alcance real',sub:'pessoas impactadas via 146 perfis'},
+  {ic:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 10v4M18 10v4"/>',cor:CV.mint,val:'R$ 4,4 mi',lab:'Mídia equivalente',sub:'valor do conteúdo, EMV estimado'}
+];
+document.getElementById('negocio').innerHTML = negocio.map(function(n){
+  return '<div class="panel stat"><div class="stat-top">'
+    + '<span class="chip" style="background:'+n.cor+'1A;color:'+n.cor+'">'
+    + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+n.ic+'</svg></span>'
+    + (n.badge ? '<span class="badge" style="background:'+n.bcor+'1A;color:'+n.bcor+'">'+n.badge+'</span>' : '')
+    + '</div><div><div class="val">'+n.val+'</div><div class="lab">'+n.lab+'</div><div class="sub">'+n.sub+'</div></div></div>';
+}).join('');
+
+/* ---------------- donut do mix ---------------- */
+var mix = [
+  {nome:'Stories', v:99, cor:CV.blue},
+  {nome:'Reels',   v:66, cor:CV.lilac},
+  {nome:'TikTok',  v:52, cor:CV.mint},
+  {nome:'Outros',  v:19, cor:CV.gold}
+];
+(function(){
+  var total = mix.reduce(function(s,m){return s+m.v;},0);
+  var r = 70, circ = 2*Math.PI*r, gap = 3, off = 0, out = '';
+  out += '<circle cx="100" cy="100" r="'+r+'" fill="none" stroke="#232329" stroke-width="26"/>';
+  mix.forEach(function(m){
+    var len = circ*(m.v/total) - gap;
+    out += '<circle cx="100" cy="100" r="'+r+'" fill="none" stroke="'+m.cor+'" stroke-width="26"'
+         + ' stroke-dasharray="'+len+' '+(circ-len)+'" stroke-dashoffset="'+(-off)+'"'
+         + ' transform="rotate(-90 100 100)"><title>'+m.nome+': '+m.v+'</title></circle>';
+    off += circ*(m.v/total);
+  });
+  document.getElementById('mix-donut').innerHTML = out;
+  document.getElementById('mix-legend').innerHTML = mix.map(function(m){
+    return '<span><i class="sw" style="background:'+m.cor+'"></i>'+m.nome+'<em>'+m.v+'</em></span>';
+  }).join('');
+})();
+
+/* ---------------- comparativo ---------------- */
+var desafios = [
+  {nome:'Meu jeito único com Moça', cor:CV.lilac, taxa:'96,0%', linhas:[['Criadoras',4452],['Conteúdos enviados',11760],['Aprovados',11292],['Reprovados',468]]},
+  {nome:'Mesa Posta com Moça',      cor:CV.blue,  taxa:'95,1%', linhas:[['Criadoras',2452],['Conteúdos enviados',5956],['Aprovados',5667],['Reprovados',289]]}
+];
+document.getElementById('comparativo').innerHTML = desafios.map(function(d){
+  return '<div class="panel" style="padding:28px"><div class="cmp-head"><p>'+d.nome+'</p>'
+    + '<span class="cmp-rate" style="background:'+d.cor+'1A;color:'+d.cor+'">'+d.taxa+' aprovados</span></div>'
+    + '<div style="margin-top:24px">' + d.linhas.map(function(l){
+        return '<div class="row"><span>'+l[0]+'</span><b'
+          + (l[0]==='Reprovados' ? ' style="color:'+CV.red+'"' : '')
+          + '>'+nf(l[1])+'</b></div>';
+      }).join('') + '</div></div>';
+}).join('');
+
+/* ---------------- barras agrupadas ---------------- */
+var barrasFeitas = false;
+function desenharBarras(){
+  if(barrasFeitas) return; barrasFeitas = true;
+  var dados = [
+    {cat:'Criadoras',  a:4452,  b:2452},
+    {cat:'Enviados',   a:11760, b:5956},
+    {cat:'Aprovados',  a:11292, b:5667}
+  ];
+  var W=720, H=260, ml=58, mr=12, mt=12, mb=38;
+  var iw = W-ml-mr, ih = H-mt-mb, max = 12000, out='';
+
+  [0,3000,6000,9000,12000].forEach(function(t){
+    var y = mt + ih - (t/max)*ih;
+    out += '<line class="grid-line" x1="'+ml+'" y1="'+y+'" x2="'+(W-mr)+'" y2="'+y+'"/>';
+    out += '<text x="'+(ml-10)+'" y="'+(y+4)+'" text-anchor="end">'+nf(t)+'</text>';
+  });
+
+  var passo = iw/dados.length, bw = 46, gap = 10;
+  dados.forEach(function(d,i){
+    var cx = ml + passo*i + passo/2;
+    [[d.a,CV.lilac,-1],[d.b,CV.blue,1]].forEach(function(s){
+      var h = (s[0]/max)*ih;
+      var x = cx + (s[2]<0 ? -(bw+gap/2) : gap/2);
+      out += '<rect x="'+x+'" y="'+(mt+ih-h)+'" width="'+bw+'" height="'+h+'" rx="6" fill="'+s[1]+'">'
+           + '<title>'+d.cat+': '+nf(s[0])+'</title></rect>';
+    });
+    out += '<text x="'+cx+'" y="'+(H-14)+'" text-anchor="middle">'+d.cat+'</text>';
+  });
+  document.getElementById('barras').innerHTML = out;
+}
 </script>
 </body>
 </html>
