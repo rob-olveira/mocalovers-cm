@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Community Management · Moça Lovers · 03 a 09/09/2026</title>
-<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
   :root{
     --moca-900:#0A2C68; --moca-700:#0E3E8F; --moca-500:#1A56C4;
@@ -13,125 +12,88 @@
     --texto:#1B2432; --texto-2:#5A6577; --linha:#E3DCCB; --linha-2:#EDE6D8;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#DDD6C7;font-family:"Helvetica Neue",Arial,"Segoe UI",sans-serif;color:var(--texto);
-       display:flex;flex-direction:column;align-items:center;padding:24px 16px 60px}
+  html,body{height:100%}
+  body{background:var(--creme);font-family:"Helvetica Neue",Arial,"Segoe UI",sans-serif;color:var(--texto);
+       display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .palco{width:794px;height:1123px;transform-origin:center center;transform:scale(var(--s,1))}
 
-  .toolbar{width:794px;max-width:100%;display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-bottom:16px;flex-wrap:wrap}
-  .toolbar .hint{margin-right:auto;font-size:12px;color:#4A5364}
-  .btn{border:0;border-radius:999px;cursor:pointer;font:600 13px/1 "Helvetica Neue",Arial,sans-serif;
-       padding:11px 18px;color:#fff;background:var(--moca-900);box-shadow:0 2px 6px rgba(10,44,104,.25);
-       transition:transform .12s ease,box-shadow .12s ease}
-  .btn.gold{background:var(--ouro)}
-  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(10,44,104,.28)}
-  .btn:focus-visible{outline:3px solid var(--ouro-claro);outline-offset:2px}
-  .btn[disabled]{opacity:.6;cursor:progress}
 
-  .page{width:794px;height:1123px;background:var(--creme);box-shadow:0 18px 50px rgba(16,32,60,.28);
+  .page{width:794px;height:1123px;background:var(--creme);
         display:flex;flex-direction:column;overflow:hidden}
 
-  header.top{background:var(--moca-900);color:#fff;padding:14px 30px 12px;
-             display:grid;grid-template-columns:1fr auto;align-items:start;border-bottom:4px solid var(--ouro)}
-  .brand{font-size:9.5px;letter-spacing:2.2px;color:#BFD0EE;font-weight:700}
-  .brand b{display:block;font-family:Georgia,serif;font-size:21px;font-weight:400;margin-top:1px}
-  .brand b i{font-style:italic;font-size:15px;color:var(--ouro-claro)}
-  h1{font-family:Georgia,serif;font-size:32px;font-weight:700;line-height:1.05;margin-top:8px}
-  .sub{font-size:11.5px;color:#C6D5F0;margin-top:4px}
-  .pub{text-align:right;font-size:17px;letter-spacing:1.4px;font-weight:300}
-  .pub b{font-weight:800}
-
-  .meta{background:var(--moca-700);color:#fff;padding:9px 30px;
-        display:grid;grid-template-columns:1fr 1fr;gap:4px 24px}
+  .faixa{background:var(--moca-900);color:#fff;padding:29px 43px 12px;border-bottom:5px solid var(--ouro)}
+  .marcas{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .marcas img.moca{height:67px;width:auto}
+  .marcas img.pub{height:18px;width:auto}
+  h1{font-family:Georgia,serif;font-size:31px;font-weight:700;line-height:1.05}
+  .sub{font-size:11.5px;color:#C6D5F0;margin-top:5px}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:11px;padding-top:9px;border-top:1px solid #2A4E8E}
   .meta div{display:grid;grid-template-columns:78px 1fr;align-items:baseline;gap:8px}
   .meta span{font-size:8px;letter-spacing:1.3px;color:var(--ouro-claro);font-weight:700}
   .meta strong{font-size:10.5px;font-weight:500}
 
-  main{flex:1;padding:14px 30px 0;display:flex;flex-direction:column;min-height:0}
-  .sec{font-family:Georgia,serif;font-size:15px;color:var(--moca-900);display:flex;align-items:baseline;gap:8px;margin:0 0 8px}
+  main{flex:1;padding:16px 43px 0;display:flex;flex-direction:column;min-height:0}
+  .sec{font-family:Georgia,serif;font-size:15px;color:var(--moca-900);display:flex;align-items:baseline;gap:8px;margin:0 0 9px}
   .sec::before{content:"";width:6px;height:6px;background:var(--ouro);flex:none;transform:translateY(-2px)}
   .sec em{margin-left:auto;font-style:italic;font-family:inherit;font-size:9.5px;color:var(--texto-2)}
 
-  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .kpi{background:#fff;border:1px solid var(--linha-2);border-left:4px solid var(--moca-700);padding:8px 11px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+  .kpi{background:#fff;border:1px solid var(--linha-2);border-left:4px solid var(--moca-700);padding:10px 12px}
   .kpi:nth-child(2){border-left-color:var(--ouro)}
   .kpi:nth-child(3){border-left-color:var(--moca-500)}
-  .kpi b{font-family:Georgia,serif;font-size:29px;color:var(--moca-900);line-height:1}
+  .kpi b{font-family:Georgia,serif;font-size:31px;color:var(--moca-900);line-height:1}
   .kpi b small{font-size:12px;color:var(--texto-2);font-family:inherit}
-  .kpi p{font-size:9.5px;color:var(--texto-2);line-height:1.35;margin-top:5px}
+  .kpi p{font-size:9.5px;color:var(--texto-2);line-height:1.35;margin-top:6px}
 
-  .chart{background:#fff;border:1px solid var(--linha-2);margin-top:10px;padding:12px 14px 8px}
-  .bars{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;height:118px}
+  .chart{background:#fff;border:1px solid var(--linha-2);margin-top:11px;padding:14px 14px 9px}
+  .bars{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;height:128px}
   .bar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
   .bar i{font-style:normal;font-size:11px;font-weight:700;color:var(--moca-900);margin-bottom:3px}
   .bar u{display:block;width:100%;background:var(--moca-500);text-decoration:none}
   .bar:first-child u{background:var(--moca-900)}
   .bar.partial u{background:var(--ouro-claro)}
-  .bar span{font-size:9px;color:var(--texto-2);margin-top:5px;border-top:1px solid var(--linha);width:100%;text-align:center;padding-top:4px}
+  .bar span{font-size:9px;color:var(--texto-2);margin-top:6px;border-top:1px solid var(--linha);width:100%;text-align:center;padding-top:5px}
 
-  .topics{margin-top:2px}
-  .topic{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;padding:6px 0 7px;border-bottom:1px solid var(--linha)}
-  .topic .rank{font-family:Georgia,serif;font-size:14px;color:var(--ouro);line-height:1}
-  .topic h3{font-size:11.5px;color:var(--moca-900);font-weight:700}
-  .topic p{font-size:9.5px;color:var(--texto-2);margin-top:1px}
-  .topic .num{font-family:Georgia,serif;font-size:19px;color:var(--moca-900);white-space:nowrap}
+  .topic{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;padding:7px 0 8px;border-bottom:1px solid var(--linha)}
+  .topic .rank{font-family:Georgia,serif;font-size:15px;color:var(--ouro);line-height:1}
+  .topic h3{font-size:12px;color:var(--moca-900);font-weight:700}
+  .topic p{font-size:9.5px;color:var(--texto-2);margin-top:2px}
+  .topic .num{font-family:Georgia,serif;font-size:20px;color:var(--moca-900);white-space:nowrap}
   .topic .num small{font-size:10.5px;color:var(--texto-2);font-family:inherit;margin-left:3px}
-  .track{grid-column:2 / -1;height:4px;background:var(--linha);margin-top:5px;overflow:hidden}
+  .track{grid-column:2 / -1;height:4px;background:var(--linha);margin-top:6px;overflow:hidden}
   .track u{display:block;height:100%;background:var(--moca-700);text-decoration:none}
-  .foot-note{font-size:9px;color:var(--texto-2);font-style:italic;margin-top:6px}
+  .foot-note{font-size:9.2px;color:var(--texto-2);font-style:italic;margin-top:7px}
 
-  .hl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
-  .card{background:#fff;border:1px solid var(--linha-2);border-top:3px solid var(--verde);padding:9px 12px 10px}
+  .hl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:9px}
+  .card{background:#fff;border:1px solid var(--linha-2);border-top:3px solid var(--verde);padding:10px 12px 11px}
   .card.warn{border-top-color:var(--vermelho)}
-  .card h4{font-family:Georgia,serif;font-size:11.5px;color:var(--verde);margin-bottom:6px}
+  .card h4{font-family:Georgia,serif;font-size:12px;color:var(--verde);margin-bottom:7px}
   .card.warn h4{color:var(--vermelho)}
-  .card li{list-style:none;font-size:9.2px;line-height:1.38;color:var(--texto-2);margin-bottom:6px}
+  .card li{list-style:none;font-size:9.2px;line-height:1.4;color:var(--texto-2);margin-bottom:7px}
   .card li b{color:var(--texto)}
-
-  footer.actions{background:var(--moca-900);color:#fff;padding:11px 30px 12px;border-top:4px solid var(--ouro);margin-top:auto}
-  .ah{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
-  .ah h2{font-family:Georgia,serif;font-size:15px;font-weight:700;white-space:nowrap}
-  .ah p{font-size:9px;color:#BFD0EE;font-style:italic;line-height:1.35}
-  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
-  .act{background:#12356F;border:1px solid rgba(217,162,78,.65);padding:7px 10px 8px}
-  .act span{font-size:8px;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700}
-  .act p{font-size:9px;line-height:1.4;margin-top:3px;color:#EAF0FB}
 
   @page{size:A4 portrait;margin:0}
   @media print{
-    body{background:#fff;padding:0;display:block}
-    .toolbar{display:none !important}
-    .page{width:794px;height:1123px;box-shadow:none}
-    html,body{width:794px;height:1123px;overflow:hidden}
-  }
-  @media (max-width:850px){
-    .page{transform:scale(.62);transform-origin:top center;margin-bottom:-427px}
-    .toolbar{justify-content:center}
-    .toolbar .hint{margin-right:0;width:100%;text-align:center}
+    html,body{width:794px;height:1123px;overflow:hidden;display:block;background:#fff}
+    .palco{transform:none !important;width:794px;height:1123px}
   }
 </style>
 </head>
 <body>
 
-<div class="toolbar">
-  <p class="hint">Quinta 03/09 (00h) a quarta 09/09 (19h) · 142 e-mails de participantes</p>
-  <button class="btn" id="btn-pdf">🖨️ Exportar PDF</button>
-  <button class="btn gold" id="btn-pptx">📊 Baixar PowerPoint (.pptx)</button>
-</div>
-
+<div class="palco">
 <section class="page">
-  <header class="top">
-    <div>
-      <div class="brand">NESTLÉ<b>Moça <i>Lovers</i></b></div>
-      <h1>Community Management</h1>
-      <p class="sub">Overview Caixa de Entrada · Fórum Semanal Moça Lovers</p>
+  <div class="faixa">
+    <div class="marcas">
+      <img class="moca" src="data:image/png;base64,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paKoAdJql+O8ohKUip8PpERYosfOQempN8isvrVD9byq7hc2YhWWu7x0XqK0L16yHGPvcahONCn9Pj3KX5QJqtGzRIssQbmbmlBQvQkAJER+z1JN9iDJfnw11APl8zkKi8UQpZWJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJS/0Nisson" alt="Nestlé Moça Lovers">
+      <img class="pub" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAt4AAABbCAYAAAB2IdAAAMVElEQVR4nO3d23LruA5FUXnX+f9f9fnIuWMrtqwLSKwFzFG1n7o6JgGQghkput3v9wUAAADDRDVbt6CfgyT/C/xZyh28UqHOilPknGfmdu+4lettTaX+HGtvD7d5nRmvSg3tdWSOqnNTyZPTXnfWt7g51tOovK1/rsp811TWz0hH53hblmW5BZ14O24MGQmeHafMRuGsPWN2rLdn1F4ct3ldGa/LRanCBVclT+573RGf4uZUT9n5UllHKutnpLNzvEWeeLuZ/a0xe0GeNXvc98Vn4Z1F7cXImNeV+qyah2qu5qnDHjaLy5pRGedjHM71V379/Av4GSoFd9V9qTOXyirmqGLtVZuPAoeYnh2jytxUxrEsWmOZIXK+s2Knunerjmsv57F/c49ovKtxL1j4ovYAQJ/LXp31W8HqLs2RxvuzyIXlWoiu43bnePKzVvpXhSev/AABABEIQAACAMACABBAWIQAACAMACABAMBCAP8P/344AAAAAElFTkSuQmCC" alt="Publination">
     </div>
-    <div class="pub">PUBLI<b>NATION</b></div>
-  </header>
-
-  <div class="meta">
-    <div><span>PERÍODO</span><strong>03/09 a 09/09/2026 (quinta a quarta)</strong></div>
-    <div><span>DESAFIO</span><strong>Mês do Brigadeiro (Semana 1)</strong></div>
-    <div><span>CANAL</span><strong>sac.mocalovers@publination.com.br</strong></div>
-    <div><span>STATUS</span><strong>Baseline (Semana 01, sem comparativo)</strong></div>
+    <h1>Community Management</h1>
+    <p class="sub">Overview Caixa E-mails · Fórum Semanal Moça Lovers</p>
+    <div class="meta">
+      <div><span>PERÍODO</span><strong>03/09 a 09/09/2026 (quinta a quarta)</strong></div>
+      <div><span>DESAFIO</span><strong>Mês do Brigadeiro (Semana 1)</strong></div>
+    </div>
   </div>
 
   <main>
@@ -154,8 +116,8 @@
       </div>
     </div>
 
-    <h2 class="sec" style="margin-top:14px">Top 5 topics</h2>
-    <div class="topics">
+    <h2 class="sec" style="margin-top:16px">Top 5 topics</h2>
+    <div>
       <div class="topic"><div class="rank">1</div>
         <div><h3>Redes sociais</h3><p>Vincular, alterar e incluir o @ do TikTok e do Instagram</p></div>
         <div class="num">59<small>42%</small></div><div class="track"><u style="width:100%"></u></div></div>
@@ -174,7 +136,7 @@
     </div>
     <p class="foot-note">Logo fora do top 5: pedidos de saída da comunidade, com 6 e-mails (4% do total).</p>
 
-    <h2 class="sec" style="margin-top:14px">Highlights e lowlights</h2>
+    <h2 class="sec" style="margin-top:16px">Highlights e lowlights</h2>
     <div class="hl">
       <div class="card">
         <h4>Sinais positivos</h4>
@@ -189,154 +151,20 @@
         <ul>
           <li><b>Campo de redes sociais travado:</b> cadeado em Meus Dados, TikTok que desvincula e troca de @ que zera colheradas.</li>
           <li><b>Ansiedade por código de rastreio:</b> o aviso de kit postado chega antes de o código aparecer na plataforma.</li>
-          <li><b>Fila acumulada gera reiteração:</b> e-mails de 03 e 04/09 respondidos só em 08/09, o que provocou reenvios.</li>
         </ul>
       </div>
     </div>
   </main>
-
-  <footer class="actions">
-    <div class="ah">
-      <h2>Acionáveis prioritários</h2>
-      <p>o maior ofensor é, na origem, um sinal de engajamento: destravar o campo de rede social aumenta o conteúdo do Mês do Brigadeiro.</p>
-    </div>
-    <div class="cards3">
-      <div class="act"><span>AGORA</span><p>Ajustar a resposta padronizada de rastreio de kits, alinhando o aviso de postagem ao código na plataforma.</p></div>
-      <div class="act"><span>HOJE</span><p>Destravar o campo de inclusão de rede social com a equipe técnica e liberar a troca de @ sem zerar colheradas.</p></div>
-      <div class="act"><span>DURANTE A SEMANA</span><p>Implementar formulário único de atualização de dados, resolvido já no primeiro contato da Lover.</p></div>
-    </div>
-  </footer>
 </section>
+</div>
 
 <script>
-document.getElementById('btn-pdf').addEventListener('click', function(){ window.print(); });
-
-var C={azul:'0A2C68',azul2:'0E3E8F',azul3:'1A56C4',azulCard:'12356F',creme:'FAF6EE',cremeLinha:'EDE6D8',
-       ouro:'B0722A',ouroC:'D9A24E',linha:'E3DCCB',texto:'1B2432',texto2:'5A6577',verde:'1F7A4D',
-       vermelho:'A4243B',branco:'FFFFFF',azulClaro:'C6D5F0',azulClaro2:'BFD0EE'};
-var W=8.27,H=11.69,M=0.45,CW=W-2*M;
-var dias=[['Qui 03',41],['Sex 04',28],['Sáb 05',6],['Dom 06',6],['Seg 07',8],['Ter 08',36],['Qua 09',17]];
-var topics=[
- ['1','Redes sociais','Vincular, alterar e incluir o @ do TikTok e do Instagram','59','42%',1.00],
- ['2','Kit e logística','Código de rastreio, status de envio e mudança de endereço','51','36%',0.86],
- ['3','Plataforma, regras e cadastro','Acesso, convites pendentes e dúvidas de execução','9','6%',0.16],
- ['4','Premiação, ranking e colheradas','Vale-compras da Amazon e prêmios dos desafios anteriores','9','6%',0.16],
- ['5','Curadoria','Contestações de conteúdo reprovado como de outro perfil','8','6%',0.14]];
-var positivos=[['Engajamento alto para vincular o TikTok: ','a maior parte dos pedidos de rede social é para adicionar o perfil e produzir mais.'],
- ['Lovebrand afetuoso: ','as Lovers escrevem para a Moça como quem escreve para uma pessoa querida.'],
- ['Mês do Brigadeiro pegou na largada: ','dúvidas de execução da receita já na semana 1.']];
-var atencao=[['Campo de redes sociais travado: ','cadeado em Meus Dados, TikTok que desvincula e troca de @ que zera colheradas.'],
- ['Ansiedade por código de rastreio: ','o aviso de kit postado chega antes de o código aparecer na plataforma.'],
- ['Fila acumulada gera reiteração: ','e-mails de 03 e 04/09 respondidos só em 08/09, o que provocou reenvios.']];
-var acionaveis=[['AGORA','Ajustar a resposta padronizada de rastreio de kits, alinhando o aviso de postagem ao código na plataforma.'],
- ['HOJE','Destravar o campo de inclusão de rede social com a equipe técnica e liberar a troca de @ sem zerar colheradas.'],
- ['DURANTE A SEMANA','Implementar formulário único de atualização de dados, resolvido já no primeiro contato da Lover.']];
-
-document.getElementById('btn-pptx').addEventListener('click', function(){
-  var btn=this, label=btn.textContent; btn.disabled=true; btn.textContent='Gerando…';
-  try{
-    var pptx=new PptxGenJS();
-    pptx.defineLayout({name:'A4P',width:W,height:H}); pptx.layout='A4P';
-    pptx.author='Publination'; pptx.company='Publination';
-    pptx.title='Community Management · Moça Lovers · 03 a 09/09/2026';
-    var s=pptx.addSlide(); s.background={color:C.creme};
-    var rect=function(o){ s.addShape(pptx.ShapeType.rect,o); };
-    var txt=function(t,o){ o=o||{}; o.isTextBox=true; o.margin=0; s.addText(t,o); };
-
-    rect({x:0,y:0,w:W,h:1.50,fill:{color:C.azul}});
-    rect({x:0,y:1.50,w:W,h:0.05,fill:{color:C.ouro}});
-    txt('NESTLÉ',{x:M,y:0.20,w:2,h:0.16,fontSize:7.5,bold:true,color:C.azulClaro2,charSpacing:2});
-    txt([{text:'Moça ',options:{fontSize:17}},{text:'Lovers',options:{fontSize:12,italic:true,color:C.ouroC}}],
-        {x:M,y:0.34,w:3,h:0.30,fontFace:'Georgia',color:C.branco});
-    txt('Community Management',{x:M,y:0.70,w:5.6,h:0.44,fontFace:'Georgia',fontSize:25,bold:true,color:C.branco});
-    txt('Overview Caixa de Entrada · Fórum Semanal Moça Lovers',{x:M,y:1.14,w:5.6,h:0.22,fontSize:9.5,color:C.azulClaro});
-    txt([{text:'PUBLI'},{text:'NATION',options:{bold:true}}],
-        {x:W-M-3.2,y:0.24,w:3.2,h:0.30,fontSize:16,color:C.branco,align:'right',charSpacing:1.3});
-
-    rect({x:0,y:1.55,w:W,h:0.68,fill:{color:C.azul2}});
-    [['PERÍODO','03/09 a 09/09/2026 (quinta a quarta)',M,1.66],
-     ['DESAFIO','Mês do Brigadeiro (Semana 1)',4.35,1.66],
-     ['CANAL','sac.mocalovers@publination.com.br',M,1.94],
-     ['STATUS','Baseline (Semana 01, sem comparativo)',4.35,1.94]].forEach(function(m){
-      txt(m[0],{x:m[2],y:m[3]+0.015,w:0.85,h:0.18,fontSize:7,bold:true,color:C.ouroC,charSpacing:1.3});
-      txt(m[1],{x:m[2]+0.82,y:m[3],w:2.9,h:0.20,fontSize:9,color:C.branco});
-    });
-
-    rect({x:M,y:2.40,w:0.055,h:0.055,fill:{color:C.ouro}});
-    txt('Overview da semana',{x:M+0.14,y:2.32,w:3.4,h:0.26,fontFace:'Georgia',fontSize:13.5,color:C.azul});
-    txt('volume por dia · corte na quarta 09/09 às 19h',{x:W-M-3.2,y:2.38,w:3.2,h:0.20,fontSize:7.5,italic:true,color:C.texto2,align:'right'});
-    [['142','','e-mails recebidos de participantes',C.azul2],
-     ['20','/dia','média de chamados na semana',C.ouro],
-     ['49','%','do volume só em 03 e 04/09, na virada do desafio',C.azul3]].forEach(function(k,i){
-      var x=M+i*2.51;
-      rect({x:x,y:2.62,w:2.35,h:0.88,fill:{color:C.branco},line:{color:C.cremeLinha,width:0.75}});
-      rect({x:x,y:2.62,w:0.055,h:0.88,fill:{color:k[3]}});
-      txt([{text:k[0],options:{fontSize:24,fontFace:'Georgia',color:C.azul}},{text:k[1],options:{fontSize:11,color:C.texto2}}],
-          {x:x+0.16,y:2.72,w:2.0,h:0.34});
-      txt(k[2],{x:x+0.16,y:3.06,w:2.05,h:0.38,fontSize:7.5,color:C.texto2,lineSpacing:9.5});
-    });
-
-    rect({x:M,y:3.62,w:CW,h:1.68,fill:{color:C.branco},line:{color:C.cremeLinha,width:0.75}});
-    var baseY=5.02,maxH=0.98,maxV=41,bw=0.66,step=1.015,x0=0.72;
-    dias.forEach(function(d,i){
-      var x=x0+i*step, h=Math.max(0.05,(d[1]/maxV)*maxH);
-      var cor=i===0?C.azul:(i===6?C.ouroC:C.azul3);
-      rect({x:x,y:baseY-h,w:bw,h:h,fill:{color:cor}});
-      txt(String(d[1]),{x:x-0.15,y:baseY-h-0.22,w:bw+0.30,h:0.20,fontSize:9,bold:true,color:C.azul,align:'center'});
-      txt(d[0],{x:x-0.15,y:baseY+0.09,w:bw+0.30,h:0.18,fontSize:7.5,color:C.texto2,align:'center'});
-    });
-    s.addShape(pptx.ShapeType.line,{x:0.62,y:baseY+0.045,w:CW-0.34,h:0,line:{color:C.linha,width:0.75}});
-
-    rect({x:M,y:5.60,w:0.055,h:0.055,fill:{color:C.ouro}});
-    txt('Top 5 topics',{x:M+0.14,y:5.52,w:3.4,h:0.26,fontFace:'Georgia',fontSize:13.5,color:C.azul});
-    topics.forEach(function(t,i){
-      var y=5.86+i*0.55;
-      txt(t[0],{x:M,y:y,w:0.22,h:0.22,fontFace:'Georgia',fontSize:12,color:C.ouro});
-      txt(t[1],{x:M+0.26,y:y-0.01,w:4.9,h:0.20,fontSize:9.5,bold:true,color:C.azul});
-      txt(t[2],{x:M+0.26,y:y+0.18,w:5.2,h:0.18,fontSize:7.5,color:C.texto2});
-      txt([{text:t[3],options:{fontSize:14,fontFace:'Georgia',color:C.azul}},{text:' '+t[4],options:{fontSize:8.5,color:C.texto2}}],
-          {x:W-M-1.6,y:y-0.02,w:1.6,h:0.26,align:'right'});
-      rect({x:M+0.26,y:y+0.40,w:CW-0.26,h:0.04,fill:{color:C.linha}});
-      rect({x:M+0.26,y:y+0.40,w:(CW-0.26)*t[5],h:0.04,fill:{color:C.azul2}});
-      s.addShape(pptx.ShapeType.line,{x:M,y:y+0.50,w:CW,h:0,line:{color:C.linha,width:0.5}});
-    });
-    txt('Logo fora do top 5: pedidos de saída da comunidade, com 6 e-mails (4% do total).',
-        {x:M,y:8.66,w:CW,h:0.20,fontSize:7.5,italic:true,color:C.texto2});
-
-    rect({x:M,y:9.00,w:0.055,h:0.055,fill:{color:C.ouro}});
-    txt('Highlights e lowlights',{x:M+0.14,y:8.92,w:3.4,h:0.26,fontFace:'Georgia',fontSize:13.5,color:C.azul});
-    [['Sinais positivos',positivos,C.verde,M],['Pontos de atenção',atencao,C.vermelho,M+3.72]].forEach(function(g){
-      rect({x:g[3],y:9.24,w:3.55,h:1.22,fill:{color:C.branco},line:{color:C.cremeLinha,width:0.75}});
-      rect({x:g[3],y:9.24,w:3.55,h:0.04,fill:{color:g[2]}});
-      txt(g[0],{x:g[3]+0.14,y:9.34,w:3.2,h:0.20,fontFace:'Georgia',fontSize:10,color:g[2]});
-      var runs=[];
-      g[1].forEach(function(li,idx){
-        runs.push({text:li[0],options:{bold:true,color:C.texto,breakLine:false}});
-        runs.push({text:li[1],options:{color:C.texto2,breakLine:idx<g[1].length-1}});
-      });
-      txt(runs,{x:g[3]+0.14,y:9.58,w:3.28,h:0.86,fontSize:7.2,lineSpacing:9.2,paraSpaceAfter:3});
-    });
-
-    rect({x:0,y:10.56,w:W,h:0.05,fill:{color:C.ouro}});
-    rect({x:0,y:10.61,w:W,h:H-10.61,fill:{color:C.azul}});
-    txt('Acionáveis prioritários',{x:M,y:10.72,w:2.5,h:0.26,fontFace:'Georgia',fontSize:14,bold:true,color:C.branco});
-    txt('o maior ofensor é, na origem, um sinal de engajamento: destravar o campo de rede social aumenta o conteúdo do Mês do Brigadeiro.',
-        {x:M+2.6,y:10.72,w:CW-2.6,h:0.30,fontSize:7.5,italic:true,color:C.azulClaro2,lineSpacing:9.5});
-    acionaveis.forEach(function(a,i){
-      var x=M+i*2.51;
-      rect({x:x,y:11.04,w:2.35,h:0.56,fill:{color:C.azulCard},line:{color:C.ouroC,width:0.75}});
-      txt(a[0],{x:x+0.12,y:11.10,w:2.1,h:0.14,fontSize:6.8,bold:true,color:C.ouroC,charSpacing:1.2});
-      txt(a[1],{x:x+0.12,y:11.25,w:2.12,h:0.34,fontSize:6.8,color:'EAF0FB',lineSpacing:8});
-    });
-
-    pptx.writeFile({fileName:'Community-Management-Moca-Lovers-03a09set2026.pptx'})
-      .then(function(){ btn.disabled=false; btn.textContent=label; })
-      .catch(function(e){ alert('Não foi possível gerar o .pptx: '+e.message); btn.disabled=false; btn.textContent=label; });
-  }catch(e){
-    alert('Não foi possível gerar o .pptx. A biblioteca é carregada por CDN, então é preciso estar online.');
-    btn.disabled=false; btn.textContent=label;
-  }
-});
+function ajustar(){
+  var s = Math.min(window.innerWidth/794, window.innerHeight/1123);
+  document.documentElement.style.setProperty('--s', s);
+}
+ajustar();
+window.addEventListener('resize', ajustar);
 </script>
 </body>
 </html>
