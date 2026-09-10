@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moça Lovers · Dashboard</title>
+<style>
+  :root{
+    --bg:#121214; --panel:#18181B; --panel2:#1E1E22;
+    --line:#2A2A31; --line2:#232329;
+    --text:#F4F4F5; --dim:#A1A1AA; --dimmer:#71717A;
+    --mint:#4ADE80; --blue:#60A5FA; --gold:#F5C451; --lilac:#A78BFA; --red:#F87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  @media(min-width:640px){.wrap{padding:0 40px}}
+
+  header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:28px 0 16px}
+  .head-in{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  h1{font-size:24px;font-weight:600;letter-spacing:-.02em}
+  .head-in p{font-size:14px;color:var(--dimmer);margin-top:4px}
+  .tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:4px}
+  .tab{font:500 14px/1 inherit;color:var(--dimmer);background:transparent;border:0;border-radius:12px;
+       padding:11px 16px;cursor:pointer;transition:color .15s,background .15s}
+  .tab:hover{color:var(--text)}
+  .tab[aria-selected="true"]{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+  .tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  main{padding:36px 0 40px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+  section+section{margin-top:40px}
+  .stack{display:flex;flex-direction:column;gap:32px}
+
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .sec-head h2{font-size:18px;font-weight:600;letter-spacing:-.01em}
+  .sec-head .note{margin-left:auto;font-size:12px;color:var(--dimmer);text-align:right}
+  .sec-head .ico{transform:translateY(3px);display:flex}
+
+  .grid{display:grid;gap:20px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:1080px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:720px){.g4,.g3,.g2{grid-template-columns:1fr}}
+
+  .stat{padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+  .stat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .chip{border-radius:12px;padding:8px;display:flex}
+  .badge{font-size:12px;font-weight:500;border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .stat .val{font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:20px}
+  .stat .lab{font-size:14px;font-weight:500;color:var(--dim);margin-top:6px}
+  .stat .sub{font-size:12px;color:var(--dimmer);margin-top:8px;line-height:1.5}
+
+  .topic{display:flex;align-items:center;gap:16px}
+  .topic+.topic{margin-top:16px}
+  .topic .rank{font-size:14px;font-weight:600;color:var(--dimmer);width:20px;text-align:right;flex:none}
+  .topic .ico{border-radius:10px;padding:8px;flex:none;display:flex}
+  .topic .body{flex:1;min-width:0}
+  .topic .names{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .topic .nome{font-size:14px;font-weight:500}
+  .topic .det{font-size:12px;color:var(--dimmer)}
+  .bar{height:6px;border-radius:999px;background:var(--line2);margin-top:8px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:999px}
+  .topic .qtd{width:80px;text-align:right;flex:none}
+  .topic .qtd b{font-size:16px;font-weight:600;display:block}
+  .topic .qtd span{font-size:12px;color:var(--dimmer)}
+
+  .insight{background:var(--panel);border:1px solid rgba(245,196,81,.28);border-radius:16px;
+           padding:24px;display:flex;gap:16px}
+  .insight h3{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:8px}
+  .insight p{font-size:14px;line-height:1.65;color:var(--dim);max-width:68ch}
+
+  .pill{font-size:12px;font-weight:500;border-radius:999px;padding:6px 12px;display:inline-flex;
+        align-items:center;gap:7px;background:rgba(74,222,128,.1);color:var(--mint)}
+  .dot{width:6px;height:6px;border-radius:999px;background:currentColor}
+
+  .mini{background:var(--panel2);border:1px solid var(--line2);border-radius:16px;padding:20px}
+  .mini b{font-size:24px;font-weight:600;display:block}
+  .mini span{font-size:14px;color:var(--dim);margin-top:4px;display:block}
+
+  .card-h{font-size:14px;font-weight:500}
+  .card-s{font-size:12px;color:var(--dimmer);margin-top:4px}
+
+  .donut-wrap{position:relative;height:212px;margin-top:16px}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+  .donut-center b{font-size:30px;font-weight:600;color:var(--mint)}
+  .donut-center span{font-size:12px;color:var(--dimmer);margin-top:2px}
+  .legend{display:flex;justify-content:center;gap:24px;font-size:12px;color:var(--dim);margin-top:4px}
+  .legend span{display:flex;align-items:center;gap:8px}
+  .legend .sw{width:8px;height:8px;border-radius:999px;flex:none}
+  .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:12px;color:var(--dim);margin-top:8px}
+  .legend-grid span{display:flex;align-items:center;gap:8px}
+  .legend-grid em{margin-left:auto;font-style:normal;color:var(--dimmer)}
+
+  .cmp-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .cmp-head p{font-size:16px;font-weight:600}
+  .cmp-rate{font-size:14px;font-weight:600;border-radius:999px;padding:5px 12px}
+  .row{display:flex;align-items:baseline;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line2)}
+  .row:first-child{border-top:0}
+  .row span{font-size:14px;color:var(--dim)}
+  .row b{font-size:18px;font-weight:600}
+
+  svg .grid-line{stroke:var(--line2);stroke-width:1}
+  svg text{fill:var(--dimmer);font-size:12px;font-family:inherit}
+  .chart-legend{display:flex;gap:20px;font-size:12px;color:var(--dim);margin-top:12px;justify-content:center}
+
+  footer{padding:0 0 40px;font-size:12px;color:var(--dimmer);line-height:1.6}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-in">
+    <div>
+      <h1>Moça Lovers</h1>
+      <p>Comunidade e plataforma Jornada Doce, semana de 03 a 09 de setembro</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-sac" aria-controls="p-sac" aria-selected="true">Overview Semanal (SAC)</button>
+      <button class="tab" role="tab" id="tab-jd" aria-controls="p-jd" aria-selected="false">Dashboard Jornada Doce</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- ==================================================== ABA 1 -->
+<div id="p-sac" role="tabpanel" aria-labelledby="tab-sac" class="stack">
+
+  <div class="grid g4">
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(96,165,250,.1);color:var(--blue)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        </span>
+      </div>
+      <div><div class="val">130</div><div class="lab">Mensagens recebidas</div><div class="sub">caixa do SAC, 03 a 09 de setembro</div></div>
+    </div>
+
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(167,139,250,.1);color:var(--lilac)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 5.5a3 3 0 0 1 0 5.6"/><path d="M18 14.6c2 .7 3.3 2.4 3.3 4.6"/></svg>
+        </span>
+      </div>
+      <div><div class="val">91</div><div class="lab">Remetentes únicos</div><div class="sub">1,4 mensagem por pessoa em média</div></div>
+    </div>
+
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(74,222,128,.1);color:var(--mint)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        </span>
+      </div>
+      <div><div class="val">18,6</div><div class="lab">Média diária</div><div class="sub">sobre os 7 dias do ciclo</div></div>
+    </div>
+
+    <div class="panel stat">
+      <div class="stat-top">
+        <span class="chip" style="background:rgba(245,196,81,.1);color:var(--gold)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.4 4.5 6 4.5 8a4.5 4.5 0 0 1-9 0c0-1 .4-2 1.2-3 .2 1.2.8 2 1.8 2.3C10.2 8.4 10.8 5.7 12 3Z"/><path d="M12 21a7 7 0 0 0 7-7"/><path d="M5 14a7 7 0 0 0 7 7"/></svg>
+        </span>
+        <span class="badge" style="background:rgba(245,196,81,.1);color:var(--gold)">2 dias</span>
+      </div>
+      <div><div class="val">60%</div><div class="lab">Concentração no pico</div><div class="sub">do volume em 03 e 08/09</div></div>
+    </div>
+  </div>
+
+  <div class="panel" style="padding:28px">
+    <div class="sec-head">
+      <span class="ico" style="color:var(--blue)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      </span>
+      <h2>O que as Lovers escreveram</h2>
+      <span class="note">6 assuntos cobrem toda a caixa</span>
+    </div>
+    <div id="topics" style="margin-top:24px"></div>
+  </div>
+
+  <div class="insight">
+    <span class="chip" style="background:rgba(245,196,81,.1);color:var(--gold);height:fit-content;flex:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a6 6 0 0 0-3.5 10.9c.5.4.8 1 .9 1.6h5.2c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 2Z"/></svg>
+    </span>
+    <div>
+      <h3>Leitura da semana</h3>
+      <p>A caixa do SAC não mede insatisfação com a marca, mas sim atrito de produto bloqueante. A maioria quer participar, mas trava em problemas de plataforma, como o campo de redes sociais bloqueado.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================== ABA 2 -->
+<div id="p-jd" role="tabpanel" aria-labelledby="tab-jd" hidden>
+
+  <section>
+    <div class="sec-head">
+      <span class="ico" style="color:var(--mint)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 13.8 9 19.5 9.6 15.2 13.2 16.6 18.8 12 15.8 7.4 18.8 8.8 13.2 4.5 9.6 10.2 9Z"/></svg>
+      </span>
+      <h2>Negócio e valor gerado</h2>
+      <span class="note">acumulado do programa</span>
+    </div>
+    <div class="grid g3" id="negocio"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="ico" style="color:var(--gold)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.4 4.5 6 4.5 8a4.5 4.5 0 0 1-9 0c0-1 .4-2 1.2-3 .2 1.2.8 2 1.8 2.3C10.2 8.4 10.8 5.7 12 3Z"/><path d="M12 21a7 7 0 0 0 7-7"/><path d="M5 14a7 7 0 0 0 7 7"/></svg>
+      </span>
+      <h2>Mês do Brigadeiro</h2>
+      <span class="note">desafio de setembro</span>
+    </div>
+
+    <div class="panel" style="padding:28px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span class="pill"><span class="dot"></span>Em andamento</span>
+        <span style="font-size:14px;color:var(--dim)">01/09 a 30/09</span>
+      </div>
+
+      <div class="grid g4" style="margin-top:24px">
+        <div class="mini"><b style="color:var(--blue)">107</b><span>Criadoras</span></div>
+        <div class="mini"><b style="color:var(--lilac)">236</b><span>Conteúdos enviados</span></div>
+        <div class="mini"><b style="color:var(--mint)">236</b><span>Aprovados</span></div>
+        <div class="mini"><b style="color:var(--red)">0</b><span>Reprovados</span></div>
+      </div>
+
+      <div class="grid g2" style="margin-top:28px">
+        <div class="mini" style="padding:24px">
+          <div class="card-h">Curadoria</div>
+          <div class="card-s">nenhum conteúdo reprovado até agora</div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 200 200" width="100%" height="100%" role="img" aria-label="100% de aprovação">
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#232329" stroke-width="26"/>
+              <circle cx="100" cy="100" r="70" fill="none" stroke="var(--mint)" stroke-width="26"
+                      stroke-dasharray="439.8 0" transform="rotate(-90 100 100)"/>
+            </svg>
+            <div class="donut-center"><b>100%</b><span>aprovação</span></div>
+          </div>
+          <div class="legend">
+            <span><i class="sw" style="background:var(--mint)"></i>236 aprovados</span>
+            <span><i class="sw" style="background:var(--red)"></i>0 reprovados</span>
+          </div>
+        </div>
+
+        <div class="mini" style="padding:24px">
+          <div class="card-h">Mix de conteúdo</div>
+          <div class="card-s">distribuição ilustrativa dos 236 envios</div>
+          <div class="donut-wrap"><svg id="mix-donut" viewBox="0 0 200 200" width="100%" height="100%"></svg></div>
+          <div class="legend-grid" id="mix-legend"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="ico" style="color:var(--lilac)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3"/><path d="M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 20h4M12 14v6"/></svg>
+      </span>
+      <h2>Desafios anteriores lado a lado</h2>
+      <span class="note">ciclos já encerrados</span>
+    </div>
+
+    <div class="grid g2" id="comparativo"></div>
+
+    <div class="panel" style="padding:28px;margin-top:20px">
+      <div class="card-h">Volume comparado</div>
+      <div class="card-s" style="margin-bottom:20px">o primeiro desafio mobilizou cerca do dobro de criadoras e conteúdos</div>
+      <svg id="barras" viewBox="0 0 720 260" width="100%" style="height:260px"></svg>
+      <div class="chart-legend">
+        <span><i class="sw" style="display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--lilac);margin-right:8px"></i>Meu jeito único com Moça</span>
+        <span><i class="sw" style="display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--blue);margin-right:8px"></i>Mesa Posta com Moça</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+</main>
+
+<footer><div class="wrap">
+  Fontes: caixa sac.mocalovers@publination.com.br e plataforma Jornada Doce. O mix de conteúdo do Mês do Brigadeiro é uma distribuição ilustrativa.
+</div></footer>
+
+<script>
+var CV = { mint:'#4ADE80', blue:'#60A5FA', gold:'#F5C451', lilac:'#A78BFA', red:'#F87171' };
+var nf = function(n){ return n.toLocaleString('pt-BR'); };
+
+/* ---------------- abas ---------------- */
+var tabSac = document.getElementById('tab-sac'), tabJd = document.getElementById('tab-jd');
+var pSac = document.getElementById('p-sac'), pJd = document.getElementById('p-jd');
+function trocar(alvo){
+  var sac = alvo === 'sac';
+  tabSac.setAttribute('aria-selected', sac); tabJd.setAttribute('aria-selected', !sac);
+  pSac.hidden = !sac; pJd.hidden = sac;
+  if(!sac) desenharBarras();
+}
+tabSac.onclick = function(){ trocar('sac'); };
+tabJd.onclick  = function(){ trocar('jd'); };
+
+/* ---------------- top 5 ---------------- */
+var icones = {
+  link:'<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.1"/>',
+  pacote:'<path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+  grade:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  trofeu:'<path d="M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3"/><path d="M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 20h4M12 14v6"/>',
+  saida:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M17 11h5"/>',
+  escudo:'<path d="M12 3 20 6v5c0 4.5-3.2 8.4-8 10-4.8-1.6-8-5.5-8-10V6Z"/><path d="m9 12 2 2 4-4"/>'
+};
+var topics = [
+  {rank:1,nome:'Redes sociais',det:'vincular e trocar o @',msgs:52,pct:'40,0',cor:CV.blue,ic:'link'},
+  {rank:2,nome:'Kit e logística',det:'rastreio e endereço',msgs:48,pct:'36,9',cor:CV.mint,ic:'pacote'},
+  {rank:3,nome:'Plataforma, regras e cadastro',det:'acesso e execução',msgs:11,pct:'8,5',cor:CV.lilac,ic:'grade'},
+  {rank:4,nome:'Premiação, ranking e colheradas',det:'vale-compras e pontuação',msgs:7,pct:'5,4',cor:CV.gold,ic:'trofeu'},
+  {rank:5,nome:'Descadastro',det:'pedidos de saída',msgs:6,pct:'4,6',cor:CV.red,ic:'saida'},
+  {rank:5,nome:'Curadoria',det:'contestação de reprovação',msgs:6,pct:'4,6',cor:CV.red,ic:'escudo'}
+];
+document.getElementById('topics').innerHTML = topics.map(function(t){
+  return '<div class="topic">'
+    + '<span class="rank">'+t.rank+'</span>'
+    + '<span class="ico" style="background:'+t.cor+'14;color:'+t.cor+'">'
+    + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+icones[t.ic]+'</svg></span>'
+    + '<div class="body"><div class="names"><span class="nome">'+t.nome+'</span><span class="det">'+t.det+'</span></div>'
+    + '<div class="bar"><i style="width:'+(t.msgs/52*100)+'%;background:'+t.cor+'"></i></div></div>'
+    + '<div class="qtd"><b>'+t.msgs+'</b><span>'+t.pct+'%</span></div></div>';
+}).join('');
+
+/* ---------------- seção A ---------------- */
+var negocio = [
+  {ic:'<path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/>',cor:CV.mint,val:'26.180',lab:'Criadoras aprovadas',sub:'de 50.553 cadastros',badge:'+1.326 em 7 dias',bcor:CV.mint},
+  {ic:'<path d="m22 3-10 9"/><path d="M22 3 15 21l-3-8-8-3Z"/>',cor:CV.blue,val:'5.485',lab:'Já publicaram',sub:'ativação de 21%',badge:'54,9% da meta',bcor:CV.blue},
+  {ic:'<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.4 2.4L16 9.8"/>',cor:CV.lilac,val:'17.195',lab:'Conteúdos aprovados',sub:'95,8% de aprovação, 757 reprovados'},
+  {ic:'<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/>',cor:CV.gold,val:'~40,3 mi',lab:'Alcance real',sub:'pessoas impactadas via 146 perfis'},
+  {ic:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 10v4M18 10v4"/>',cor:CV.mint,val:'R$ 4,4 mi',lab:'Mídia equivalente',sub:'valor do conteúdo, EMV estimado'}
+];
+document.getElementById('negocio').innerHTML = negocio.map(function(n){
+  return '<div class="panel stat"><div class="stat-top">'
+    + '<span class="chip" style="background:'+n.cor+'1A;color:'+n.cor+'">'
+    + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+n.ic+'</svg></span>'
+    + (n.badge ? '<span class="badge" style="background:'+n.bcor+'1A;color:'+n.bcor+'">'+n.badge+'</span>' : '')
+    + '</div><div><div class="val">'+n.val+'</div><div class="lab">'+n.lab+'</div><div class="sub">'+n.sub+'</div></div></div>';
+}).join('');
+
+/* ---------------- donut do mix ---------------- */
+var mix = [
+  {nome:'Stories', v:99, cor:CV.blue},
+  {nome:'Reels',   v:66, cor:CV.lilac},
+  {nome:'TikTok',  v:52, cor:CV.mint},
+  {nome:'Outros',  v:19, cor:CV.gold}
+];
+(function(){
+  var total = mix.reduce(function(s,m){return s+m.v;},0);
+  var r = 70, circ = 2*Math.PI*r, gap = 3, off = 0, out = '';
+  out += '<circle cx="100" cy="100" r="'+r+'" fill="none" stroke="#232329" stroke-width="26"/>';
+  mix.forEach(function(m){
+    var len = circ*(m.v/total) - gap;
+    out += '<circle cx="100" cy="100" r="'+r+'" fill="none" stroke="'+m.cor+'" stroke-width="26"'
+         + ' stroke-dasharray="'+len+' '+(circ-len)+'" stroke-dashoffset="'+(-off)+'"'
+         + ' transform="rotate(-90 100 100)"><title>'+m.nome+': '+m.v+'</title></circle>';
+    off += circ*(m.v/total);
+  });
+  document.getElementById('mix-donut').innerHTML = out;
+  document.getElementById('mix-legend').innerHTML = mix.map(function(m){
+    return '<span><i class="sw" style="background:'+m.cor+'"></i>'+m.nome+'<em>'+m.v+'</em></span>';
+  }).join('');
+})();
+
+/* ---------------- comparativo ---------------- */
+var desafios = [
+  {nome:'Meu jeito único com Moça', cor:CV.lilac, taxa:'96,0%', linhas:[['Criadoras',4452],['Conteúdos enviados',11760],['Aprovados',11292],['Reprovados',468]]},
+  {nome:'Mesa Posta com Moça',      cor:CV.blue,  taxa:'95,1%', linhas:[['Criadoras',2452],['Conteúdos enviados',5956],['Aprovados',5667],['Reprovados',289]]}
+];
+document.getElementById('comparativo').innerHTML = desafios.map(function(d){
+  return '<div class="panel" style="padding:28px"><div class="cmp-head"><p>'+d.nome+'</p>'
+    + '<span class="cmp-rate" style="background:'+d.cor+'1A;color:'+d.cor+'">'+d.taxa+' aprovados</span></div>'
+    + '<div style="margin-top:24px">' + d.linhas.map(function(l){
+        return '<div class="row"><span>'+l[0]+'</span><b'
+          + (l[0]==='Reprovados' ? ' style="color:'+CV.red+'"' : '')
+          + '>'+nf(l[1])+'</b></div>';
+      }).join('') + '</div></div>';
+}).join('');
+
+/* ---------------- barras agrupadas ---------------- */
+var barrasFeitas = false;
+function desenharBarras(){
+  if(barrasFeitas) return; barrasFeitas = true;
+  var dados = [
+    {cat:'Criadoras',  a:4452,  b:2452},
+    {cat:'Enviados',   a:11760, b:5956},
+    {cat:'Aprovados',  a:11292, b:5667}
+  ];
+  var W=720, H=260, ml=58, mr=12, mt=12, mb=38;
+  var iw = W-ml-mr, ih = H-mt-mb, max = 12000, out='';
+
+  [0,3000,6000,9000,12000].forEach(function(t){
+    var y = mt + ih - (t/max)*ih;
+    out += '<line class="grid-line" x1="'+ml+'" y1="'+y+'" x2="'+(W-mr)+'" y2="'+y+'"/>';
+    out += '<text x="'+(ml-10)+'" y="'+(y+4)+'" text-anchor="end">'+nf(t)+'</text>';
+  });
+
+  var passo = iw/dados.length, bw = 46, gap = 10;
+  dados.forEach(function(d,i){
+    var cx = ml + passo*i + passo/2;
+    [[d.a,CV.lilac,-1],[d.b,CV.blue,1]].forEach(function(s){
+      var h = (s[0]/max)*ih;
+      var x = cx + (s[2]<0 ? -(bw+gap/2) : gap/2);
+      out += '<rect x="'+x+'" y="'+(mt+ih-h)+'" width="'+bw+'" height="'+h+'" rx="6" fill="'+s[1]+'">'
+           + '<title>'+d.cat+': '+nf(s[0])+'</title></rect>';
+    });
+    out += '<text x="'+cx+'" y="'+(H-14)+'" text-anchor="middle">'+d.cat+'</text>';
+  });
+  document.getElementById('barras').innerHTML = out;
+}
+</script>
+</body>
+</html>
