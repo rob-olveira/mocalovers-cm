@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moça Lovers · Dashboard</title>
+<style>
+:root{--bg:#121214;--panel:#18181B;--panel2:#1E1E22;--line:#2A2A31;--line2:#232329;--text:#F4F4F5;--dim:#A1A1AA;--dimmer:#71717A;--mint:#4ADE80;--blue:#60A5FA;--gold:#F5C451;--lilac:#A78BFA;--red:#F87171;--teal:#2DD4BF;--rose:#FB7185}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+@media (min-width:640px){.wrap{padding:0 40px}}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:28px 0 16px}
+.head-in{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+h1{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.head-in>div>p{font-size:14px;color:var(--dimmer);margin-top:4px}
+.head-right{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.head-right img.pub{height:15px;width:auto;opacity:.9}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:4px}
+.tab{color:var(--dimmer);background:transparent;border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font:inherit;font-size:13.3333px;transition:color .15s,background .15s}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+.tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+main{padding:36px 0 40px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+section+section{margin-top:40px}
+.stack{display:flex;flex-direction:column;gap:32px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sec-head h2{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.sec-head .note{margin-left:auto;font-size:12px;color:var(--dimmer);text-align:right}
+.sec-head .ico{transform:translateY(3px);display:flex}
+.grid{display:grid;gap:20px}
+.g5{grid-template-columns:repeat(5,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1080px){.g5{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:720px){.g5,.g4,.g3,.g2{grid-template-columns:1fr}}
+.stat{padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+.stat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.chip{border-radius:12px;padding:8px;display:flex}
+.badge{font-size:12px;font-weight:500;border-radius:999px;padding:5px 10px;white-space:nowrap}
+.stat .val{font-size:28px;font-weight:600;letter-spacing:-.02em;margin-top:20px}
+.stat .lab{font-size:14px;font-weight:500;color:var(--dim);margin-top:6px}
+.stat .sub{font-size:12px;color:var(--dimmer);margin-top:8px;line-height:1.5}
+.topic{display:flex;align-items:center;gap:16px}
+.topic+.topic{margin-top:16px}
+.topic .rank{font-size:14px;font-weight:600;color:var(--dimmer);width:20px;text-align:right;flex:0 0 auto}
+.topic .ico{border-radius:10px;padding:8px;flex:0 0 auto;display:flex}
+.topic .body{flex:1 1 0%;min-width:0}
+.topic .names{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.topic .nome{font-size:14px;font-weight:500}
+.topic .det{font-size:12px;color:var(--dimmer)}
+.bar{height:6px;border-radius:999px;background:var(--line2);margin-top:8px;overflow:hidden;display:block}
+.bar i{display:block;height:100%;border-radius:999px}
+.topic .qtd{width:80px;text-align:right;flex:0 0 auto}
+.topic .qtd b{font-size:16px;font-weight:600;display:block}
+.topic .qtd span{font-size:12px;color:var(--dimmer)}
+.insight{background:var(--panel);border:1px solid rgba(245,196,81,.28);border-radius:16px;padding:24px;display:flex;gap:16px}
+.insight h3{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:8px}
+.insight p{font-size:14px;line-height:1.65;color:var(--dim);max-width:68ch}
+.pill{font-size:12px;font-weight:500;border-radius:999px;padding:6px 12px;display:inline-flex;align-items:center;gap:7px;background:rgba(74,222,128,.1);color:var(--mint)}
+.pill.off{background:rgba(113,113,122,.15);color:var(--dimmer)}
+.dot{width:6px;height:6px;border-radius:999px;background:currentColor}
+.mini{background:var(--panel2);border:1px solid var(--line2);border-radius:16px;padding:20px}
+.mini b{font-size:24px;font-weight:600;display:block}
+.mini span{font-size:14px;color:var(--dim);margin-top:4px;display:block}
+.card-h{font-size:14px;font-weight:500}
+.card-s{font-size:12px;color:var(--dimmer);margin-top:4px}
+.donut-wrap{position:relative;height:200px;margin-top:16px}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.donut-center b{font-size:26px;font-weight:600}
+.donut-center span{font-size:12px;color:var(--dimmer);margin-top:2px}
+.legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:12px;color:var(--dim);margin-top:12px}
+.legend-grid span{display:flex;align-items:center;gap:8px;min-width:0}
+.legend-grid i{width:8px;height:8px;border-radius:999px;flex:0 0 auto}
+.legend-grid em{margin-left:auto;font-style:normal;color:var(--dimmer);white-space:nowrap}
+.legend-1{grid-template-columns:1fr}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:right;padding:14px 8px;font-size:14px}
+th{font-size:12px;color:var(--dimmer);font-weight:500;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+td{border-bottom:1px solid var(--line2)}
+tr:last-child td{border-bottom:0}
+td.nome{font-weight:500}
+.rank-row{display:flex;align-items:center;gap:12px}
+.rank-row+.rank-row{margin-top:14px}
+.rank-row .k{font-size:13px;color:var(--dim);width:64px;flex:0 0 auto}
+.rank-row .t{flex:1 1 0%}
+.rank-row .v{font-size:13px;width:100px;text-align:right;flex:0 0 auto}
+.rank-row .v em{font-style:normal;color:var(--dimmer);margin-left:8px}
+svg .grid-line{stroke:var(--line2);stroke-width:1}
+svg text{fill:var(--dimmer);font-size:12px;font-family:inherit}
+.chart-legend{display:flex;gap:20px;font-size:12px;color:var(--dim);margin-top:12px;justify-content:center;flex-wrap:wrap}
+.chart-legend i{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:8px}
+footer{padding:0 0 40px;font-size:12px;color:var(--dimmer);line-height:1.7}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap head-in">
+    <div>
+      <h1>Moça Lovers</h1>
+      <p id="subtitulo"></p>
+    </div>
+    <div class="head-right">
+      <img class="pub" alt="Publination" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOkAAAAdCAYAAABPNEvsAAATfUlEQVR4nK2defRdVXXHP/clYYgQIAxCQEggoIxCIFoQgVQhkBBLGVqHLkCp1cIqUpeVQS1qpbZVUSuCFGpBa22Lq1BAASODzNA2EAlDCgESwhCZUlDI9N63f+x7ePuee+499/3IXuuu97vn7rPPPtM+e++zz/kVkmiAPYENmj5G0AMeBl5z74MW/G2AHYCmwl8AnkqkF8C+GT6WACvL9x2BLVvwm2g8BLzeEf8dwMYttBYDv2nJPw6rU1N7FcBy4NeJb/uW3wPeQqDfym0afF8/X5bXFTYq8wf+1wAPNuBOBqbRPjZyUABPAyvK9x2ArTuUHSCMzZ2Bk4AvMGxDym/XAZ8BHiE/lgPEdesBD5Q8jQITgd1LOgXwDJJSzzskrZI0GOH5laT7JZ0v6XhJG0gqErQ3krSwhU5f0qJEvkLSfuX3przrJJ1Z4m4g6bEMftPzgKRLJH1c0lsa2ghJMyX9JlOXb7bkLySdXfLdxucDkjaO8p6cKOuDLWU1Pbu7vu5LelDShI55C0mXRryvknRIAndS2a+j9kWqTW8py95W0hOu/FWysdvG7wxJV0h6vsyTgoGk1yXdKGmupHEd2uKSqB36ki5Ueg60PZ+LaNzehHhGSwWaoB8xeZ+kIyImC1kHttEeSFrewNeXyzLaePhHWaPOzODm6hLqsVQmHFKN/a1MGQNJP2uoS2iP/5S0NkNjpaRNory3RWUPJM1vKavp+bSG/TGQ9KKkbTrmnZOo/0DSpxL1nFt+H2ufePpLJW0l6X2qt8HsBJ+FpLdJukrSag37NwdhTP+7pK0TdD391KTvS9qjJV+Kzn2q9seyXsOS++4Rl+iwvPfKJboA3glcBZzjcATs2oHWsw3pB3fIuxBTFWZQVWNGAV+PHYCfAx+PcApglw60Hm35Nh44vPxtAmEq3G+j9F2o1q8AZgGndODJg+9rAS+RVq1j2Bj4HvU2FjAvShewT/k71j7xtJ7ETKJDsL4K6a8C/xPhF8BRwC3AB4AJDPvX0wyPhzCmjwd+wVCtjmFbYDPSdTu9vToVELCp40PA002TdOcEw6NCgdkr5wJHuLS5HWj/d0P6/uQ7+Y7y9+0dcLtAD7NrLwIOcOnjOvAj4OoWnJ3I2/0FcDfDNivKct+aoNsDLqW7kN0ImBnl/2nHvGdjAixVt7dQ7+OlJe4g8aRALbjfKH9/h+qAfgp4MaIzD1sspjEUvJ7+GmxReK78XUd9whbA3sBNwKSIfoEtCOMSdegBf0y3hanA/BvTGAqeHnB1apJuhXVc0wQeBQpslfgbhtIrXgFiEHAz9VXi3ZiUacvbx4x1sBXqzTgoPIQyP+X+3oL0RAkgYC3wOGmhVAB7teT3sDii2yaABHyuA02A7YCpVAfuyg75dgHObOChh/XV5Cj9x5hwObD87p97qLaRgK8C70rgzgCuxQTE3i5PATwW0TkUuAIbg/HkvBlbYd9V0ppS/s4ETgUWUZ+oewIfjeol4L0NbRHa4/iW757O9AhPwOKUXnxoR319FOhL2kXmkFjdAfcoSeMjvnJ2cl/SDTK9frLaHQNjhZUlX+MlHae8PbpS7TbIRR147EvaVVWb+Csd8uyfKRtJp0Tl92X9n3N23JDhe6C086hoeC6O6A1kDrteA37gPW7/81xZO8ochzHdhWUdx0X0PI+U5V+gus27XHUn3k9a2qPNxxI/n43y9iXtkVotD8vM+LFAAczB1N42+wts6+MXmNrh4e0dynmtLGty+XSRXilbpAkmYpJxHWZj5Whfn8GZ2oHGC9h2g1d359CuJRR0s4X2o6oursa2HdraYx6mpfiVaRX1rZ9DE3nV8Mx1OAPgVyXNQQM+2BZJvHVyrUs7k6GKG8peBLwfuLXkN9X34f01bHvmYaptPwV4T5TnoERdA4Q8J7TgBLx5DPt1gJkID8WTtMCW/9yg9fZC1wE+AdPNc6ru3ZiaGMPRGfoF1kkDrNO7TNCrgUuAf87g+jICdLF5H8l8n5n5LsxOetWlbYp1esrx4eGEEq8JUo6vlQz3H1OwNfAPUbmLgc0xdXbg0rs67t6KOV08LKN933gPbAJ6AbOK4f7udOBPqDqVVgK/i+0DdxmzAl4G/iqBv7P7ezrpvfiY/zMz5W0IvI3qvvedULc7x2OSps0eHWD2QrARbqP7RN2rA+6TibRtscGZg/9laIDnYAB8EPgktqn9VIY3YTZPWDGOaMENcC/NA3UHmoMgAvQwz7KX5Ftik8XTXUHVYRKcdp9poT2Bal8LuKGFX4AvY4EofnU6EROqt0Xlt60uHm8apqH4wfkzmvtC2GDeMEpfybAPz6TuyPkippWMCtdhAsALhKMcvwdhbenbbTU2Fn2/zQB+v6WczbHgG0/nNqhOxmAYp7xUAYJK9BVgAXA/8Pd0l0xeTWrCSTmNppB3GoGpJkHStvE0wFSeNVgbBBd6Dq4s884mP8HA6tLkNJqGTaRceyyM3uM2FCbtD8YGk4ePYBMgVf77qPd/28o/FTiZ6gS9Hvgv6g6nYHLsTb5+sxM4i1ryUOaBKv/zy9/NMeHry1gEfDdDswlewTy/TXBI9C5Mi9kD2w7y/X8uzebe+xN0HgSKeMX0OnwTLMfsxgG2qnTd5rgfc823QQHcR93TN5f86n4vtsc3CbMZ2vALTPU+DvgQpvZOot1j+iLwgxLnEGzrpAl/gNnV8aTx9OZleBQmRO6Oyond+cK2nR4FLmRoghTYivvhBvo7R+9BdW2CHzKss7Ax8AmXN16Fe4kyUjA9kbYkk2df6upk2I+eTXVlBriAsYVLUtK5g2Zhe6D7Fuzpa8pvfxfh7gMc2VCO79cg9O4EFA+SubSDMOngG+A48hNV2ATdIoO7lrS6uyv51frREmdn8ttHBbA98K/A5djWQBOEcv+Sof11Dvk6B36a4L2Z72BBBUscXuwzEBbHuhAbICmt5kukheMB1Ffk6xp4+jC2UnvV+KtUY3xXURVKBfk98aLkww/yx8mrpd4eDfwsKPk7NOJzBfCjDL02ENVtqpBWYKr/TtG319zf87G6eF7/KFFGQXXPF+AJSkHkB7Po5gz5JcM9z92BYzL4A8xWyE3QARYVEge2F1j0Uq6zF5R/75PB9Xl8lFQKgkPmNOBihnti4Vsb7Ttbvo/H7Kocn7F3eCLVoHqorn5LqUZ4Fdhe6IkRHVFV04K9HXvUgzD724jXB8o0D2uwzX6/wuU88ltgNra3R+8h7TgM33fHbDdvlq0D7ip5PCLi4QGqE2csEO/HhuivKZjZE/jvMeyzAbYafo2qkD2Beh9uSNX8CGZOAfUVp4vDZTWmOrwTuJG8XVVgK0JOAISBHQ/crbCOyamGd5V/t6mho4KAP8fC30LHh9CwXBk3N6QXWFtsR14ljwfrBtTVcm9HBhXLB1AIc1jE/PrIGWGOjliFFLaKbu/yCzg/wRvUy2gbT0EdjyfpQy15IG1jr8Nsx1QZ8+nu2OwKN5U0Z1FfYeMTT5cnyveLTlCZ47Fwa8DxH6aQbgAPBabmzMdW1G0y+CHPldhEyzXW84m8E2l3ZgV4AavPkR3K6QoFcDvVQXQUNijGKghEN9s/HJnyeHG4prDO9O9gNlGAAlPnt3Dv+1DXbLxaHWAa8LGI/grgPxL8irr9PBETRilItUNY0ZsgOM5iDTDYsNtTDVUUJrDGCgW2l9zkr4jNCGG+CO8ceh7Tdvyk/GSUbzL1tl8ZygyVLbAB0GVV3Abbb9qUvO0Htur+FNO5c3BL9K6yrJyavAzT4QXslsEfFb6GtQsl3d3IO7EW0e4R3Ic8j32qnQumdvkVci3mMPNQYJ7Mte59c6ohjZtF5adWsM2wrZBYAzqL5vOxPjC/wFTBNoG0V/T+hkezAR+GwsZD0KImUd0OCZ7dNyNQD0zkv6lMO4KqPb0C22HwZoOAv3bvBbZ1GegKU3VjYfXG1qbXgefQbdIFW65LxYWpxGuxbY422+9V0gP7YNpXxgKzefslX7mAiVBeLsA70J7F0KYL9HNq6tIWnsNqnIsr7lP1coZ8vm6ryrI8hNXoMqrS+zT3PdXX10Xv36M6QYUdfPhBC8+xDV1g9leTZ/RoqoN8OfWY2TjPoVTbLmgT61MwezidqmB8CVsdN6Ieh76atBlwBdV9U7D+CO/TXLqwefB/IcF3VBcP6qiwGpO8OQgD6+UofQImcdqgYNhJR5IPO1SJt0n5HEL7hBFwBtZWs0uecvy0OY02wlSyNhhgXnTPV4F5dj1fbSdW/iXKO5nhMTbf18IG3UsO/2DqG+/BFm2CgvotBMH+TsEGmPPM497TQh9MvYyD0AtMeLRN7LHCHOqa0w2Yc3MS1YWnoLk/1lA/9HAsNsnHU9UygzB8o+/DgA66d3Atrw/oA+dh+6NHZuiGztwSGyyhwedhzoe2vAJ+UuIc3AH3WUyVeL3EzV0VElbPXemmSg8w2ywFBWajxW77FN6TUdpEqg4caD+reiumBnp17RzM2znL4QWbLnjVC0zFjx1wBTawmvwQqQk5wFb/M6hPos2oq8Jt9QFzNPmYbGELQVu0WJegkyY4KZH2b+XvnMS3tmCQazCtJ/T9xtjxx1uomx+VVXc8Ngh3JD9wukJQJb+DRSZBfuUIDqILsT2tCVgY1SfaMjHcgL+/fE9tjMf4r2NqYqjrWXSv954dcHpYYHYcQVJgbRKnp0CYcy7YLAVwGHUH2kMOJ0XjXCysMJQ/FZu48eS70dH4CGYzxW1SYEeujs/wHtOejAnfeO/zsAS/ISCiacIdnshzO833UfWAP8QCZEaBoizrBKoC4T4sPhzSEWqhbVP8r8FMkHNd2uHYeIjb7JEKnfLIzh6JYz+jQLiPpS9pmaR5Gt4LU8ju0elCP9Dx10fk8E/T8HjRig551kp6WtIzkp7tWMZvJW0nO3I01uNvA9nVLt9Uvi0GkvZV+7G2gexIXu74000Znvuya26QtJOsbdbnEb++7N6h+EjY51Xt55dVP54YP6mjY5+OcJ50OH1JD6v7nU3+qpUlUT0Gkk5wOFe5cgaSXupAe2vZ8cXcMb8pPl8PU0tzYXcpCCvmasyrdzGmnk4vpY0Pw1pLt9UqdkrlVNclZbkFptdv1aGc8ZjKuS3th7Z9OU9gHrvNM7g56GMaSw4GZZkepkbva+l2o6HfTI8hOOzuw9rhfKxt/OrxZv0UPaoOIhjuDfq0pdSDKTwUpDWlO6J3vw3Uw1TwL9F9/O2IbS/Gzpx7MQdQoLtfRLPpNhEPz2NaSxMIm0sV30ywSXcjb4/ehRn2AecRTN1aicUr+o6NC15S4uzN+rnxIcDXGe5ZjnJdyihqfYGF202nGl0yKgjr/G9naITg/3hzfkaE0xYb7OGXmN3tj0F5np7D4pJnUQ96WAd8v2M5lHk3wW4v8HTiE0wTsO0Lv7sQBEWTUNiQ6h6pMKG3LMK7DPiDiKezsAlyEVVTJ4Awc+sDmKDyDiFhnlZ/VHITqscFRV1YpKDAHEhHk742R5hdXm3vckm9R/lbBo5V/ea/nvKn+MPzscwyPwqkbsa7dD3SD9CX9LikDSV9YT3Q36sDjYGk76razvuqrur+hbq1O5JObSn3YtlNA/dGOH1JHx2hjPCMl/SUqirnXRqOk0KmXsf1OUvtY2k/VcfoWkkLGvLcrvp4DlfFnifpPbLbJA+QdKLMlHha9VsEw+0aBznahaTfi+j3ZTd1dJ0LP1S6PwaSvhjj9zBnyP40r3DBgxaOJPn0UQ59X059c34sIGxV/pBLK7CtlPW5hTTAPMGzsfp3uRmwCYKDK3eELoD3EgpTkeN8qTC4JrgKq0NKy1mMeTF9wL0w1e6fRigjwDrM2+pNlqkMo9nE6CdwwM5t+hVwHBbfmmrPUzANwX/rYe1/Dqap3I1phpdhDsoQpunb4BVMK/BbaqIayxvAO99yEMc9e6hFXPUwt3ouLvY50jfKjwJ94LNYsPNYbJ1wNG4BFqHhvYWbYvbim/VOB74GWMfMwtSPAvN4jlUICHOrd/EOp/Y/Z1Hvo2vpDs8A3yI9SR/CLorzaSuAP2Xs7enNogKz/cN54LDfGwv86xP8eTjIfQ+mWdOWzWLstMkzVBcSb6v6wxUF1ckpzASYjQm4GHzAzABT1UcRmg9j4zjVH3FoJT3stH0YmKknuLnXB1yLSbNrMMdHKLcJ/B03yzGJP5P6LQTbMYx/bKpH0+PLeg6TssdgNlM8CEal7cv4OcN/Q9D09Mu6ecdB0BL6DmcFLiKlI1zA8N6g8KxmeAuj74tTSx7GKpRudvyGPgxXxYjhJA31eYLmky8BDovygAmzJkFyC1a3qxm2VZPm58fZrzG7cVfMWZTCnxXVbWkDXhP0gc9THa997NjhspjWeMzLdh5mDKcqvA4Lql8foJKJYzBHyEnYAe0ZDbgLsADpH2MdEu5EjfEew1SzLjGxHtZhAiMcMXqc4Q0DsaT/Ora65ML5YhB2tOlKzAPY5uDqYU4qP0mFqfbfx/prHHbSpe3/y6TgaeDPsDqoLOtHWJjf7gzP4V5DevUYBeZjQfg7lTQfpKoOnozFF4cV7GzaPbtgTq3vlH+/ggWw+EvCYhBW52OxIJCTMMfQXlQdgMICPJ7B7m+6jWpATQpOZ7i//irpe5BycAMWFxA0tLVYv9b+d8z/A/Ic2RYhNeXNAAAAAElFTkSuQmCC">
+      <div class="tabs" role="tablist">
+        <button class="tab" id="tab-sac" role="tab" aria-controls="p-sac" aria-selected="true">Overview Semanal (SAC)</button>
+        <button class="tab" id="tab-jd" role="tab" aria-controls="p-jd" aria-selected="false">Dashboard Jornada Doce</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main><div class="wrap">
+  <div class="stack" id="p-sac" role="tabpanel" aria-labelledby="tab-sac">
+    <div class="grid g4" id="kpis-sac"></div>
+    <div class="panel" style="padding:28px">
+      <div class="sec-head">
+        <span class="ico" style="color:var(--blue)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+        <h2>O que as Lovers escreveram</h2>
+        <span class="note" id="topics-note"></span>
+      </div>
+      <div id="topics" style="margin-top:24px"></div>
+    </div>
+    <div class="panel" style="padding:28px">
+      <div class="card-h">Volume por dia</div>
+      <div class="card-s" id="dias-sub" style="margin-bottom:12px"></div>
+      <svg id="dias" viewBox="0 0 720 240" width="100%" style="height:240px"></svg>
+    </div>
+    <div class="insight">
+      <span class="chip" style="background:rgba(245,196,81,.1);color:var(--gold);height:fit-content;flex:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a6 6 0 0 0-3.5 10.9c.5.4.8 1 .9 1.6h5.2c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 2Z"/></svg></span>
+      <div>
+        <h3>Leitura da semana</h3>
+        <p id="leitura"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="p-jd" role="tabpanel" aria-labelledby="tab-jd" hidden>
+    <section>
+      <div class="sec-head">
+        <span class="ico" style="color:var(--mint)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 13.8 9 19.5 9.6 15.2 13.2 16.6 18.8 12 15.8 7.4 18.8 8.8 13.2 4.5 9.6 10.2 9Z"/></svg></span>
+        <h2>Comunidade e valor</h2>
+        <span class="note">painel da plataforma</span>
+      </div>
+      <div class="grid g5" id="kpis-jd"></div>
+      <div class="grid g2" style="margin-top:20px">
+        <div class="panel" style="padding:28px">
+          <div class="card-h">Status dos creators</div>
+          <div class="card-s" id="creators-sub"></div>
+          <div class="donut-wrap">
+            <svg id="d-creators" viewBox="0 0 200 200" width="100%" height="100%"></svg>
+            <div class="donut-center"><b style="color:var(--mint)" id="creators-pct"></b><span>aprovados</span></div>
+          </div>
+          <div class="legend-grid" id="l-creators"></div>
+        </div>
+        <div class="panel" style="padding:28px">
+          <div class="card-h">Colheradas no tempo</div>
+          <div class="card-s" id="colheradas-sub" style="margin-bottom:12px"></div>
+          <svg id="colheradas" viewBox="0 0 560 250" width="100%" style="height:250px"></svg>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <span class="ico" style="color:var(--gold)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3.4 4.5 6 4.5 8a4.5 4.5 0 0 1-9 0c0-1 .4-2 1.2-3 .2 1.2.8 2 1.8 2.3C10.2 8.4 10.8 5.7 12 3Z"/><path d="M12 21a7 7 0 0 0 7-7"/><path d="M5 14a7 7 0 0 0 7 7"/></svg></span>
+        <h2 id="desafio-nome"></h2>
+        <span class="note" id="desafio-note"></span>
+      </div>
+      <div class="panel" style="padding:28px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <span class="pill"><span class="dot"></span>Ativo</span>
+          <span style="font-size:14px;color:var(--dim)" id="desafio-periodo"></span>
+        </div>
+        <div class="grid g4" style="margin-top:24px" id="desafio-minis"></div>
+        <div class="grid g2" style="margin-top:24px">
+          <div class="mini" style="padding:24px">
+            <div class="card-h">Curadoria do desafio</div>
+            <div class="card-s" id="curadoria-sub"></div>
+            <div class="donut-wrap">
+              <svg id="d-curadoria" viewBox="0 0 200 200" width="100%" height="100%"></svg>
+              <div class="donut-center"><b style="color:var(--mint)" id="curadoria-pct"></b><span>válidas</span></div>
+            </div>
+          </div>
+          <div class="mini" style="padding:24px;display:flex;flex-direction:column;justify-content:center">
+            <div class="card-h">Como se compara</div>
+            <p style="font-size:13px;line-height:1.7;color:var(--dim);margin-top:12px;max-width:60ch" id="como-compara"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <span class="ico" style="color:var(--lilac)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3"/><path d="M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 20h4M12 14v6"/></svg></span>
+        <h2>Participações por desafio</h2>
+        <span class="note">total, válidas e penalizadas</span>
+      </div>
+      <div class="panel" style="padding:8px 28px 24px">
+        <table id="tab-desafios">
+          <thead><tr><th>Desafio</th><th>Status</th><th>Total</th><th>Válidas</th><th>Penalizadas</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="panel" style="padding:28px;margin-top:20px">
+        <div class="card-h">Volume comparado</div>
+        <div class="card-s" style="margin-bottom:20px" id="barras-sub"></div>
+        <svg id="barras" viewBox="0 0 720 250" width="100%" style="height:250px"></svg>
+        <div class="chart-legend">
+          <span><i style="background:var(--lilac)"></i>Participações totais</span>
+          <span><i style="background:var(--mint)"></i>Válidas</span>
+          <span><i style="background:var(--red)"></i>Penalizadas</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <span class="ico" style="color:var(--blue)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.3-6.2 7.5-6.2s7.5 2.6 7.5 6.2"/></svg></span>
+        <h2>Perfil da comunidade</h2>
+        <span class="note">base de creators cadastrados</span>
+      </div>
+      <div class="grid g2">
+        <div class="panel" style="padding:28px">
+          <div class="card-h">Gênero</div>
+          <div class="card-s" id="genero-sub"></div>
+          <div class="donut-wrap">
+            <svg id="d-genero" viewBox="0 0 200 200" width="100%" height="100%"></svg>
+            <div class="donut-center"><b style="color:var(--gold)" id="genero-pct"></b><span>feminino</span></div>
+          </div>
+          <div class="legend-grid legend-1" id="l-genero"></div>
+        </div>
+        <div class="panel" style="padding:28px">
+          <div class="card-h">Perfil empreendedor</div>
+          <div class="card-s" id="emp-sub"></div>
+          <div class="donut-wrap">
+            <svg id="d-emp" viewBox="0 0 200 200" width="100%" height="100%"></svg>
+            <div class="donut-center"><b style="color:var(--blue)" id="emp-pct"></b><span>empreendem</span></div>
+          </div>
+          <div class="legend-grid legend-1" id="l-emp"></div>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:20px">
+        <div class="panel" style="padding:28px">
+          <div class="card-h">Estados com mais creators</div>
+          <div class="card-s" style="margin-bottom:20px" id="ufs-sub">quatro primeiros da lista</div>
+          <div id="ufs"></div>
+        </div>
+        <div class="panel" style="padding:28px">
+          <div class="card-h">Faixa etária</div>
+          <div class="card-s" style="margin-bottom:20px" id="idades-sub"></div>
+          <div id="idades"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div></main>
+
+<footer><div class="wrap" id="rodape"></div></footer>
+
+<!-- DADOS DA EDIÇÃO: a tarefa semanal troca SOMENTE este bloco JSON -->
+<script type="application/json" id="dados">
+{
+ "subtitulo": "Comunidade e plataforma Jornada Doce, semana de 03 a 09 de setembro",
+ "rodape_sac": "Aba do SAC: caixa sac.mocalovers@publination.com.br, janela de quinta 03/09 às 00h a quarta 09/09 às 23h59.",
+ "rodape_jd": "Aba Jornada Doce: painel da plataforma, leitura de 11/09/2026. Alcance real e mídia equivalente não constam do painel e vieram do relatório de mídia do projeto.",
+ "sac": {
+  "total": 147,
+  "remetentes": 102,
+  "janela_texto": "quinta 03/09 às 00h a quarta 09/09 às 23h59",
+  "por_pessoa_texto": "1,4 mensagem por pessoa em média",
+  "media_texto": "21,0",
+  "pico_pct": 52,
+  "pico_texto": "do volume em 03 e 08/09",
+  "categorias": [
+   {
+    "nome": "Redes sociais",
+    "det": "vincular e trocar o @",
+    "n": 61
+   },
+   {
+    "nome": "Kit e logística",
+    "det": "rastreio e endereço",
+    "n": 54
+   },
+   {
+    "nome": "Plataforma, regras e cadastro",
+    "det": "acesso, convites e execução",
+    "n": 9
+   },
+   {
+    "nome": "Premiação, ranking e colheradas",
+    "det": "prêmios e pontuação",
+    "n": 9
+   },
+   {
+    "nome": "Curadoria",
+    "det": "contestação de reprovação",
+    "n": 8
+   },
+   {
+    "nome": "Descadastro",
+    "det": "pedidos de saída",
+    "n": 6
+   }
+  ],
+  "janela_grafico": "quinta 03/09 às 00h até quarta 09/09 às 23h59",
+  "dias": [
+   {
+    "rotulo": "Qui 03",
+    "n": 41
+   },
+   {
+    "rotulo": "Sex 04",
+    "n": 28
+   },
+   {
+    "rotulo": "Sáb 05",
+    "n": 6
+   },
+   {
+    "rotulo": "Dom 06",
+    "n": 6
+   },
+   {
+    "rotulo": "Seg 07",
+    "n": 8
+   },
+   {
+    "rotulo": "Ter 08",
+    "n": 36
+   },
+   {
+    "rotulo": "Qua 09",
+    "n": 22
+   }
+  ],
+  "leitura": "A caixa do SAC não mede insatisfação com a marca, mas sim atrito de produto bloqueante. A maioria quer participar, mas trava em problemas de plataforma, como o campo de redes sociais bloqueado."
+ },
+ "jd": {
+  "creators_cadastrados": 57046,
+  "creators_aprovados": 26290,
+  "pendentes": 12680,
+  "status": [
+   {
+    "k": "Aprovados",
+    "v": 26290
+   },
+   {
+    "k": "Pendentes",
+    "v": 12680
+   },
+   {
+    "k": "Incompletos",
+    "v": 7111
+   },
+   {
+    "k": "Usuários participativos",
+    "v": 5796
+   },
+   {
+    "k": "Sob revisão",
+    "v": 4768
+   },
+   {
+    "k": "Aguardando aprovação",
+    "v": 400
+   },
+   {
+    "k": "Rejeitados",
+    "v": 1
+   }
+  ],
+  "colheradas_acumuladas": 4847820,
+  "colheradas_por_mes": [
+   {
+    "mes": "Abr",
+    "v": 0
+   },
+   {
+    "mes": "Mai",
+    "v": 0
+   },
+   {
+    "mes": "Jun",
+    "v": 202925
+   },
+   {
+    "mes": "Jul",
+    "v": 3076255
+   },
+   {
+    "mes": "Ago",
+    "v": 1241060
+   },
+   {
+    "mes": "Set",
+    "v": 327580
+   }
+  ],
+  "alcance_real": "~40,3 mi",
+  "alcance_sub": "pessoas impactadas via 146 perfis",
+  "midia_equivalente": "R$ 4,4 mi",
+  "desafio_ativo": {
+   "nome": "Mês do Brigadeiro",
+   "periodo": "01/09 a 30/09",
+   "total": 388,
+   "validas": 388,
+   "penalizadas": 0,
+   "colheradas_mes": 327580,
+   "nota": "desafio de setembro",
+   "colheradas_rotulo": "Colheradas em setembro",
+   "curadoria_sub": "nenhuma participação penalizada até agora",
+   "como_compara": "Com onze dias corridos, o desafio soma 388 participações, todas válidas. Os dois anteriores fecharam com 4.752 e 2.503, e a segunda metade do mês costuma concentrar a maior parte do volume, então há bastante espaço de crescimento até o dia 30."
+  },
+  "desafios": [
+   {
+    "nome": "Meu jeito único com Moça",
+    "curto": "Meu jeito único",
+    "status": "Encerrado",
+    "total": 4752,
+    "validas": 4738,
+    "penalizadas": 14
+   },
+   {
+    "nome": "Mesa Posta com Moça",
+    "curto": "Mesa Posta",
+    "status": "Encerrado",
+    "total": 2503,
+    "validas": 2295,
+    "penalizadas": 208
+   },
+   {
+    "nome": "Mês do Brigadeiro",
+    "curto": "Mês do Brigadeiro",
+    "status": "Ativo",
+    "total": 388,
+    "validas": 388,
+    "penalizadas": 0
+   }
+  ],
+  "genero": [
+   {
+    "k": "Feminino",
+    "v": 30399
+   },
+   {
+    "k": "Masculino",
+    "v": 1003
+   },
+   {
+    "k": "Prefiro não informar",
+    "v": 29
+   },
+   {
+    "k": "Não-binário",
+    "v": 14
+   },
+   {
+    "k": "Outro",
+    "v": 12
+   }
+  ],
+  "empreendedor": {
+   "nao": 24818,
+   "sim": 6639
+  },
+  "estados": [
+   {
+    "k": "SP",
+    "v": 10284
+   },
+   {
+    "k": "RJ",
+    "v": 3678
+   },
+   {
+    "k": "MG",
+    "v": 2740
+   },
+   {
+    "k": "BA",
+    "v": 2253
+   }
+  ],
+  "faixas": [
+   {
+    "k": "25-34",
+    "v": 14267
+   },
+   {
+    "k": "35-44",
+    "v": 7833
+   },
+   {
+    "k": "18-24",
+    "v": 5340
+   },
+   {
+    "k": "45-54",
+    "v": 3071
+   },
+   {
+    "k": "55+",
+    "v": 946
+   }
+  ],
+  "colheradas_mes_texto": "327.580 só em setembro",
+  "barras_sub": "o primeiro desafio quase dobrou o segundo em participações",
+  "idades_sub": "concentração forte entre 25 e 44 anos"
+ }
+}
+</script>
+
+<script>
+(function(){
+var D=JSON.parse(document.getElementById('dados').textContent);
+var NS='http://www.w3.org/2000/svg';
+function $(id){return document.getElementById(id)}
+function n(v){return Number(v).toLocaleString('pt-BR')}
+function p1(v){return (v).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+var IC={
+ mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/>',
+ users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 5.5a3 3 0 0 1 0 5.6"/><path d="M18 14.6c2 .7 3.3 2.4 3.3 4.6"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ flame:'<path d="M12 3c3 3.4 4.5 6 4.5 8a4.5 4.5 0 0 1-9 0c0-1 .4-2 1.2-3 .2 1.2.8 2 1.8 2.3C10.2 8.4 10.8 5.7 12 3Z"/><path d="M12 21a7 7 0 0 0 7-7"/><path d="M5 14a7 7 0 0 0 7 7"/>',
+ link:'<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.1"/>',
+ box:'<path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ trophy:'<path d="M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3"/><path d="M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 20h4M12 14v6"/>',
+ shield:'<path d="M12 3 20 6v5c0 4.5-3.2 8.4-8 10-4.8-1.6-8-5.5-8-10V6Z"/><path d="m9 12 2 2 4-4"/>',
+ userminus:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M17 11h5"/>',
+ user:'<circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.3-6.2 7.5-6.2s7.5 2.6 7.5 6.2"/>',
+ check:'<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.4 2.4L16 9.8"/>',
+ spoon:'<path d="M12 3c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4Z"/><path d="M12 11v10"/>',
+ eye:'<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/>',
+ money:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 10v4M18 10v4"/>'
+};
+function svgI(k,s,w){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+w+'" stroke-linecap="round" stroke-linejoin="round">'+IC[k]+'</svg>'}
+function stat(c,ico,val,lab,sub,badge){
+ return '<div class="panel stat"><div class="stat-top"><span class="chip" style="background:'+c+'1A;color:'+c+'">'+svgI(ico,18,2)+'</span>'+(badge?'<span class="badge" style="background:'+(badge.bg||c+'1A')+';color:'+(badge.fg||c)+'">'+esc(badge.t)+'</span>':'')+'</div><div><div class="val">'+esc(val)+'</div><div class="lab">'+esc(lab)+'</div><div class="sub">'+esc(sub)+'</div></div></div>';
+}
+function el(tag,attrs,txt){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e}
+function niceStep(max,parts){var raw=max/parts,pow=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/pow,best=1;[1,2,5,10].forEach(function(c){if(Math.abs(c-f)<Math.abs(best-f))best=c});return best*pow}
+function bars(svg,o){
+ // o: {W,base,top,x0,x1,labelY,groups:[{label,vals:[{v,color,title}]}]}
+ var max=0;o.groups.forEach(function(g){g.vals.forEach(function(b){if(b.v>max)max=b.v})});
+ var step=niceStep(max||1,4),ticks=Math.max(1,Math.round(max/step)),top=ticks*step,h=o.base-o.top;
+ for(var i=0;i<=ticks;i++){var y=o.base-h*i/ticks;svg.appendChild(el('line',{'class':'grid-line',x1:o.x0,y1:y,x2:o.x1,y2:y}));svg.appendChild(el('text',{x:o.x0-10,y:y+4,'text-anchor':'end'},n(step*i)))}
+ var slot=(o.x1-o.x0)/o.groups.length;
+ o.groups.forEach(function(g,gi){var cx=o.x0+slot*(gi+.5),k=g.vals.length,bw=46,gap=6,tot=k*bw+(k-1)*gap;
+  g.vals.forEach(function(b,bi){var bh=Math.max(1.5,h*b.v/top),x=cx-tot/2+bi*(bw+gap),y=b.v>0?o.base-bh:o.base;var r=el('rect',{x:x,y:y,width:bw,height:bh,rx:5,fill:b.color});r.appendChild(el('title',{},b.title));svg.appendChild(r)});
+  svg.appendChild(el('text',{x:cx,y:o.labelY,'text-anchor':'middle'},g.label))});
+}
+function donut(svg,items,total){
+ var C=2*Math.PI*70,cum=0;svg.appendChild(el('circle',{cx:100,cy:100,r:70,fill:'none',stroke:'#232329','stroke-width':26}));
+ items.forEach(function(it){var f=it.v/total,len=Math.max(.5,f*C-2.5);var c=el('circle',{cx:100,cy:100,r:70,fill:'none',stroke:it.color,'stroke-width':26,'stroke-dasharray':len+' '+(C-len),'stroke-dashoffset':-cum,transform:'rotate(-90 100 100)'});c.appendChild(el('title',{},it.k+': '+n(it.v)));svg.appendChild(c);cum+=f*C});
+}
+function legend(box,items,total){box.innerHTML=items.map(function(it){return '<span><i style="background:'+it.color+'"></i>'+esc(it.k)+'<em>'+p1(it.v/total*100)+' ('+n(it.v)+')</em></span>'}).join('')}
+function rankRows(box,rows,color){var mx=Math.max.apply(null,rows.map(function(r){return r.v})),tot=rows.reduce(function(a,r){return a+r.v},0);box.innerHTML=rows.map(function(r){return '<div class="rank-row"><span class="k">'+esc(r.k)+'</span><span class="t"><span class="bar"><i style="width:'+(r.v/mx*100)+'%;background:'+color+'"></i></span></span><span class="v">'+n(r.v)+'<em>'+p1(r.v/(r.base||tot)*100)+'</em></span></div>'}).join('')}
+
+/* ---------- Cabeçalho e rodapé ---------- */
+$('subtitulo').textContent=D.subtitulo;
+$('rodape').innerHTML=esc(D.rodape_sac)+'<br>'+esc(D.rodape_jd);
+
+/* ---------- Aba 1 · Overview Semanal (SAC) ---------- */
+var S=D.sac;
+$('kpis-sac').innerHTML=
+ stat('#60A5FA','mail',n(S.total),'Mensagens recebidas',S.janela_texto)+
+ stat('#A78BFA','users',n(S.remetentes),'Remetentes únicos',S.por_pessoa_texto)+
+ stat('#4ADE80','cal',S.media_texto,'Média diária','sobre os 7 dias do ciclo')+
+ stat('#F5C451','flame',S.pico_pct+'%','Concentração no pico',S.pico_texto,{t:'2 dias'});
+var TC=[['#60A5FA','link'],['#4ADE80','box'],['#A78BFA','grid'],['#F5C451','trophy'],['#FB7185','shield'],['#F87171','userminus']];
+var ICON_BY_CAT={'Redes sociais':'link','Kit e logística':'box','Plataforma, regras e cadastro':'grid','Premiação, ranking e colheradas':'trophy','Curadoria':'shield','Descadastro':'userminus'};
+var cats=S.categorias.slice().sort(function(a,b){return b.n-a.n});var cmax=cats[0].n;
+$('topics-note').textContent=cats.length+' assuntos cobrem toda a caixa';
+$('topics').innerHTML=cats.map(function(c,i){var col=TC[i][0],ic=ICON_BY_CAT[c.nome]||TC[i][1];return '<div class="topic"><span class="rank">'+(i+1)+'</span><span class="ico" style="background:'+col+'14;color:'+col+'">'+svgI(ic,16,2.2)+'</span><div class="body"><div class="names"><span class="nome">'+esc(c.nome)+'</span><span class="det">'+esc(c.det)+'</span></div><div class="bar"><i style="width:'+(c.n/cmax*100)+'%;background:'+col+'"></i></div></div><div class="qtd"><b>'+c.n+'</b><span>'+p1(c.n/S.total*100)+'</span></div></div>'}).join('');
+$('dias-sub').textContent=S.janela_grafico;
+bars($('dias'),{base:200,top:12,x0:64,x1:708,labelY:224,groups:S.dias.map(function(d){return {label:d.rotulo,vals:[{v:d.n,color:'#60A5FA',title:d.rotulo+' · '+d.n+' mensagens'}]}})});
+$('leitura').textContent=S.leitura;
+
+/* ---------- Aba 2 · Dashboard Jornada Doce ---------- */
+var J=D.jd;
+$('kpis-jd').innerHTML=
+ stat('#60A5FA','user',n(J.creators_cadastrados),'Creators cadastrados','base total da plataforma')+
+ stat('#4ADE80','check',n(J.creators_aprovados),'Creators aprovados',p1(J.creators_aprovados/J.creators_cadastrados*100)+' da base',{t:n(J.pendentes)+' pendentes',bg:'#71717A26',fg:'#A1A1AA'})+
+ stat('#F5C451','spoon',n(J.colheradas_acumuladas),'Colheradas acumuladas',J.colheradas_mes_texto)+
+ stat('#A78BFA','eye',J.alcance_real,'Alcance real',J.alcance_sub)+
+ stat('#2DD4BF','money',J.midia_equivalente,'Mídia equivalente','EMV estimado do conteúdo');
+var SC={'Aprovados':'#4ADE80','Pendentes':'#8B5E3C','Incompletos':'#E8E2D4','Usuários participativos':'#FB7185','Sob revisão':'#E07A26','Aguardando aprovação':'#F5C451','Rejeitados':'#F87171'};
+var st=J.status.map(function(s){return {k:s.k,v:s.v,color:SC[s.k]||'#71717A'}});
+$('creators-sub').textContent=n(J.creators_cadastrados)+' cadastros na base';
+donut($('d-creators'),st,J.creators_cadastrados);legend($('l-creators'),st,J.creators_cadastrados);
+$('creators-pct').textContent=p1(J.creators_aprovados/J.creators_cadastrados*100);
+$('colheradas-sub').textContent=n(J.colheradas_acumuladas)+' colheradas acumuladas';
+bars($('colheradas'),{base:210,top:12,x0:64,x1:548,labelY:234,groups:J.colheradas_por_mes.map(function(m){return {label:m.mes,vals:[{v:m.v,color:'#F5C451',title:m.mes+' · colheradas: '+n(m.v)}]}})});
+var A=J.desafio_ativo;
+$('desafio-nome').textContent=A.nome;$('desafio-note').textContent=A.nota;$('desafio-periodo').textContent=A.periodo;
+$('desafio-minis').innerHTML=[['var(--lilac)',n(A.total),'Participações'],['var(--mint)',n(A.validas),'Válidas'],['var(--red)',n(A.penalizadas),'Penalizadas'],['var(--gold)',n(A.colheradas_mes),A.colheradas_rotulo]].map(function(m){return '<div class="mini"><b style="color:'+m[0]+'">'+m[1]+'</b><span>'+esc(m[2])+'</span></div>'}).join('');
+$('curadoria-sub').textContent=A.curadoria_sub;
+var vp=A.total?A.validas/A.total:1,Cc=2*Math.PI*70;
+$('d-curadoria').innerHTML='<circle cx="100" cy="100" r="70" fill="none" stroke="#232329" stroke-width="26"/><circle cx="100" cy="100" r="70" fill="none" stroke="var(--mint)" stroke-width="26" stroke-dasharray="'+(vp*Cc)+' '+((1-vp)*Cc)+'" transform="rotate(-90 100 100)"/>';
+$('curadoria-pct').textContent=(vp===1?'100%':p1(vp*100));
+$('como-compara').textContent=A.como_compara;
+var all=J.desafios;
+$('tab-desafios').querySelector('tbody').innerHTML=all.map(function(d){var ativo=d.status==='Ativo',pv=d.total?d.validas/d.total*100:0,pp=d.total?d.penalizadas/d.total*100:0;
+ return '<tr><td class="nome">'+esc(d.nome)+'</td><td>'+(ativo?'<span class="pill" style="font-size:11px;padding:4px 10px"><span class="dot"></span>Ativo</span>':'<span class="pill off" style="font-size:11px;padding:4px 10px">Encerrado</span>')+'</td><td>'+n(d.total)+'</td><td style="color:#4ADE80">'+n(d.validas)+' <span style="color:var(--dimmer);font-size:12px">'+(pv===100?'100%':p1(pv))+'</span></td><td style="color:'+(d.penalizadas>0?'#F87171':'var(--dimmer)')+'">'+n(d.penalizadas)+(d.penalizadas>0?' <span style="color:var(--dimmer);font-size:12px">'+p1(pp)+'</span>':'')+'</td></tr>'}).join('');
+$('barras-sub').textContent=J.barras_sub;
+bars($('barras'),{base:210,top:12,x0:64,x1:708,labelY:234,groups:all.map(function(d){return {label:d.curto,vals:[{v:d.total,color:'#A78BFA',title:d.curto+' · Total: '+n(d.total)},{v:d.validas,color:'#4ADE80',title:d.curto+' · Válidas: '+n(d.validas)},{v:d.penalizadas,color:'#F87171',title:d.curto+' · Penalizadas: '+n(d.penalizadas)}]}})});
+var GC={'Feminino':'#F5C451','Masculino':'#E8E2D4','Prefiro não informar':'#8B5E3C','Não-binário':'#4ADE80','Outro':'#E07A26'};
+var ge=J.genero.map(function(g){return {k:g.k,v:g.v,color:GC[g.k]||'#71717A'}}),gt=ge.reduce(function(a,g){return a+g.v},0);
+$('genero-sub').textContent=n(gt)+' respostas';donut($('d-genero'),ge,gt);legend($('l-genero'),ge,gt);$('genero-pct').textContent=p1(ge[0].v/gt*100);
+var em=[{k:'Não empreendedores',v:J.empreendedor.nao,color:'#0B3E9E'},{k:'Empreendedores',v:J.empreendedor.sim,color:'#60A5FA'}],et=em[0].v+em[1].v;
+$('emp-sub').textContent=n(et)+' respostas';donut($('d-emp'),em,et);legend($('l-emp'),em,et);$('emp-pct').textContent=p1(em[1].v/et*100);
+rankRows($('ufs'),J.estados,'#60A5FA');
+$('idades-sub').textContent=J.idades_sub;rankRows($('idades'),J.faixas,'#A78BFA');
+
+/* ---------- Abas ---------- */
+var tabs=[$('tab-sac'),$('tab-jd')];
+tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(o){var on=o===t;o.setAttribute('aria-selected',on?'true':'false');$(o.getAttribute('aria-controls')).hidden=!on});window.scrollTo(0,0)})});
+})();
+</script>
+</body>
+</html>
